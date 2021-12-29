@@ -78,7 +78,7 @@
 
         {% set stations = pages('_stations') %}
 
-        {% if url_param('shuffle', 'boolean') or url_param('shuffle') is not null %}
+        {% if url_param('shuffle', 'boolean') %}
             {% set random_stations = [] %}
             {% for i in 1..stations | length %}
               {% set random_stations = random_stations | merge([random(stations | filter(value => value not in random_stations))]) %}
@@ -131,7 +131,7 @@
 
   </script>
 
-{% if url_param('random', 'boolean') or url_param('random') is not null %}
+{% if url_param('random', 'boolean') %}
 
 
     {% set random_station = random(pages('_stations')) %}
