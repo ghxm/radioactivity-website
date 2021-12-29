@@ -1,5 +1,5 @@
 ---
-title: DO!! YOU!!! RADIO
+title: DO!! YOU!!! Radio
 logo: doyou.png
 stream_url:
     - ["station", "https://s4.radio.co/s374bdb2d0/listen"]
