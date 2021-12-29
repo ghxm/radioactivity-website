@@ -59,7 +59,7 @@
         </div>
 
         <div class="d-flex col-md-6 align-items-center">
-          <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href="{{ current_page.id|link('random=true') }}">Play a random station</a> or <a onclick="" href="{{ current_page.id|link('shuffle=true') }}">shuffle stations</a> or<wbr> <a onclick="" href="#">show only stations that are live right now</a>.</p>
+          <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href="{{ current_page.id|link('random=true') }}">Play a random station</a> or <a onclick="" href="{{ current_page.id|link('shuffle=true') }}">shuffle stations</a> or<wbr> <a onclick="" href="#">show only stations that are live right now</a>. View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}.</p>
         </div>
 
         </div>
@@ -86,28 +86,64 @@
             {% set stations = random_stations %}
         {% endif %}
 
+        {% if url_param('display', 'string') == 'list' %}
+
+
+        <table class="table table-hover ">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Location</th>
+              <th scope="col">Hours</th>
+              <th scope="col">Description</th>
+              <th scope="col">Play</th>
+              <th scope="col">Website</th>
+              <th scope="col">Support</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for station in stations %}
+            <tr>
+              <th scope="row">{{ station.title }}</th>
+              <td>{{ station.meta.location }}</td>
+              <td>{{ station.meta.play_time }}</td>
+              <td>{{ station.meta.description }}</td>
+              <td>{% for stream in station.meta.stream_url %}<button class="btn btn-link py-0" type="button" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}')"><span class="iconify" data-icon="bi:play-fill"></span></button>{% endfor %}</td>
+              <td><a href="{{ station.meta.url }}">{{ station.meta.url|replace({'https://': '', 'http://': '', 'www.': ''}) }}</a></td>
+              <td><a class="btn btn-link py-0" href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: "
+              class="link-danger{% endif %}">{% if station.meta.support is not empty %}<span class="iconify" data-icon="clarity:cursor-hand-grab-line"></span>{% else %}<span class="iconify" data-icon="fluent:mail-20-regular"></span>{% endif %}</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+        {% else %}
+
           {% for station in stations %}
 
-              <div class="col themed-grid-col">
-                  <div class="card">
-                      <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="card-img-top img-fluid" alt="{{ station.meta.title }} logo">
-                      <div class="card-body">
-                          <h5 class="card-title">{{ station.title }}</h5 station.title >
-                          <h6 class="card-subtitle mb-2 text-muted"><span alt="location">{{ station.meta.location }}</span></h6>
-                          <h6 class="card-subtitle mb-2 text-muted"><span alt="location">{{ station.meta.play_time }}</span></h6>
-                          <p class="card-text station-description">{{ station.meta.description }}</p>
-                      </div>
-                      <ul class="list-group list-group-flush">
-                          <li class="list-group-item"><a href="{{station.meta.url}}" target="_blank">Website</a></li>
-                          <li class="list-group-item"><a href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " class="link-danger{% endif %}">{% if station.meta.support is empty %}Submit a support link{% else %}Support the station</a>{% endif %}</a></li>
-                          {% for stream in station.meta.stream_url %}
-                          <button class="list-group-item fw-bold" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}')">Play {{ stream[0] }}</button>
-                          {% endfor %}
-                      </ul>
-                  </div>
-              </div>
+                <div class="col themed-grid-col">
+                    <div class="card">
+                        <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="card-img-top img-fluid" alt="{{ station.meta.title }} logo">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ station.title }}</h5 station.title >
+                            <h6 class="card-subtitle mb-2 text-muted"><span alt="location">{{ station.meta.location }}</span></h6>
+                            <h6 class="card-subtitle mb-2 text-muted"><span alt="hours">{{ station.meta.play_time }}</span></h6>
+                            <p class="card-text station-description">{{ station.meta.description }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><a href="{{station.meta.url}}" target="_blank">Website</a></li>
+                            <li class="list-group-item"><a href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " class="link-danger{% endif %}">{% if station.meta.support is empty %}Submit a support link{% else %}Support the station</a>{% endif %}</a></li>
+                            {% for stream in station.meta.stream_url %}
+                            <button class="list-group-item fw-bold" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}')">Play {{ stream[0] }}</button>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+              
 
-          {% endfor %}
+            {% endfor %}
+
+        {% endif %}
 
 
       </div>
@@ -143,6 +179,9 @@
     </script>
 
 {% endif %}
+
+<script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+
     
 </body>
 </html>
