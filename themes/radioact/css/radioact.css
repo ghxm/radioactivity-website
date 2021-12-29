@@ -1,0 +1,18 @@
+/* */
+
+
+
+.card-img-top {
+    height: calc(14vh + 0.4vw);
+    object-fit: cover;
+    }
+
+
+#tagline, #tagmenu {
+    font-size: calc((0.8em + 0.5vw)) !important;
+}
+
+#audio-player {
+    width: calc(12em + 5vw);
+    height: 3.5em;
+}
