@@ -40,8 +40,8 @@
       <div class="row mx-0 ">
 
 
-      <h1>{{ meta.title }}</h1>
-      <p class="lead" id="tagline">shamelessly copied from The Wire magazine.</p>
+      <h1>{{ meta.title }}<a href="mailto:{{ config.contact }}">?</a></h1>
+      <p class="lead" id="tagline">shamelessly copied from <a href="https://www.thewire.co.uk/issues/449" target="_blank">The Wire</a> magazine.</p>
 
       </div>
 
@@ -85,7 +85,7 @@
                       </div>
                       <ul class="list-group list-group-flush">
                           <li class="list-group-item"><a href="{{station.meta.url}}" target="_blank">Website</a></li>
-                          <li class="list-group-item"><a href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}#" class="link-danger{% endif %}">{% if station.meta.support is empty %}Submit a support link{% else %}Support the station</a>{% endif %}</a></li>
+                          <li class="list-group-item"><a href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " class="link-danger{% endif %}">{% if station.meta.support is empty %}Submit a support link{% else %}Support the station</a>{% endif %}</a></li>
                           {% for stream in station.meta.stream_url %}
                           <button class="list-group-item fw-bold" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}')">Play {{ stream[0] }}</button>
                           {% endfor %}
