@@ -1,4 +1,4 @@
 ---
 template: index
-title: radioactivity.directory
+title: radioactivity.directory (α version)
 ---
