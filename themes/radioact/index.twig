@@ -95,6 +95,7 @@
               <th scope="col">Name</th>
               <th scope="col">Location</th>
               <th scope="col">Hours</th>
+              <th scope="col">rec'd</th>
               <th scope="col">Description</th>
               <th scope="col">Play</th>
               <th scope="col">Website</th>
@@ -107,6 +108,7 @@
               <th scope="row">{{ station.title }}</th>
               <td>{{ station.meta.location }}</td>
               <td>{{ station.meta.play_time }}</td>
+              <td>{% if station.meta.recommended is defined %}{% for rec in station.meta.recommended %}<span class="align-middle badge bg-dark rec-badge">{{ rec }}</span>{% endfor %}{% endif %}</td>
               <td>{{ station.meta.description }}</td>
               <td>{% for stream in station.meta.stream_url %}<button class="btn btn-link py-0" type="button" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}')"><span class="iconify" data-icon="bi:play-fill"></span></button>{% endfor %}</td>
               <td><a href="{{ station.meta.url }}">{{ station.meta.url|replace({'https://': '', 'http://': '', 'www.': ''}) }}</a></td>
@@ -125,7 +127,7 @@
                     <div class="card">
                         <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="card-img-top img-fluid" alt="{{ station.meta.title }} logo">
                         <div class="card-body">
-                            <h5 class="card-title">{{ station.title }}</h5 station.title >
+                            <h5 class="card-title">{{ station.title }}{% if station.meta.recommended is defined %} {% for rec in station.meta.recommended %}<h6><span class="position-absolute top-0 start-20 translate-middle badge bg-dark">{{ rec }}</span></h6>{% endfor %}{% endif %}</h5>
                             <h6 class="card-subtitle mb-2 text-muted"><span alt="location">{{ station.meta.location }}</span></h6>
                             <h6 class="card-subtitle mb-2 text-muted"><span alt="hours">{{ station.meta.play_time }}</span></h6>
                             <p class="card-text station-description">{{ station.meta.description }}</p>
