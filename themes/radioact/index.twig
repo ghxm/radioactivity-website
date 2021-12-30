@@ -111,7 +111,7 @@
               <td>{% if station.meta.recommended is defined %}{% for rec in station.meta.recommended %}<span class="align-middle badge bg-dark rec-badge">{{ rec }}</span>{% endfor %}{% endif %}</td>
               <td>{{ station.meta.description }}</td>
               <td>{% for stream in station.meta.stream_url %}<button class="btn btn-link py-0" type="button" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}')"><span class="iconify" data-icon="bi:play-fill"></span></button>{% endfor %}</td>
-              <td><a href="{{ station.meta.url }}">{{ station.meta.url|replace({'https://': '', 'http://': '', 'www.': ''}) }}</a></td>
+              <td><a href="{{ station.meta.url }}">{{ station.meta.url|replace({'https://': '', 'http://': '', 'www.': '', '/': ''}) }}/</a></td>
               <td><a class="btn btn-link py-0" href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: "
               class="link-danger{% endif %}">{% if station.meta.support is not empty %}<span class="iconify" data-icon="clarity:cursor-hand-grab-line"></span>{% else %}<span class="iconify" data-icon="fluent:mail-20-regular"></span>{% endif %}</a></td>
             </tr>
