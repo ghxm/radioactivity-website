@@ -58,6 +58,8 @@
             </audio>
         </div>
 
+        <div class="col-1 mx-0"></div>
+
         <div class="d-flex col-md-6 align-items-center">
           <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href="{{ current_page.id|link('random=true') }}">Play a random station</a> or <a onclick="" href="{{ current_page.id|link('shuffle=true') }}">shuffle stations</a> or<wbr> <a onclick="" href="#">show only stations that are live right now</a>. View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}.</p>
         </div>
