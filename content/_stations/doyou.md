@@ -2,7 +2,7 @@
 title: DO!! YOU!!! Radio
 logo: doyou.png
 stream_url:
-    - ["station", "https://s4.radio.co/s374bdb2d0/listen"]
+    - ["station", "https://mxhg.uber.space/doyou"]
 description: "DO!! YOU!!! with Charlie Bones."
 support: https://ko-fi.com/doyouworld/tiers
 url: "https://doyou.world/"
