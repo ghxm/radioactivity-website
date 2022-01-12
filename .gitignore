@@ -13,3 +13,4 @@ desktop.ini
 # Composer
 /composer.phar
 /vendor
+workspace.code-workspace
