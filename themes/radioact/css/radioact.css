@@ -22,6 +22,9 @@
     background-color: var(--lightblue3) !important;
 }
 
+.fw-900 {
+    font-weight: 900;
+}
 
 .card-img-top {
     height: calc(14vh + 0.4vw);
