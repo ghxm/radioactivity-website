@@ -1,5 +1,26 @@
+/* COLORS */
+
+:root {
+    --lightblue: #c9e4fa; 
+    --lightblue2: #aad9f7;
+    --lightblue3: #abc2f3;
+}
+
 /* */
 
+
+.bg-lightblue{
+    background-color: var(--lightblue) !important;
+}
+
+
+.bg-lightblue2{
+    background-color: var(--lightblue2) !important;
+}
+
+.bg-lightblue3{
+    background-color: var(--lightblue3) !important;
+}
 
 
 .card-img-top {

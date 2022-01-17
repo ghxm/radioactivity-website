@@ -45,12 +45,12 @@
 
   </head>
 
-<body>
+<body class="bg-lightblue">
 
 <div id="page">
     
     <div>
-    <header class="px-0 py-3 my-0 mx-0 container-fluid site-header">
+    <header class="px-0 py-3 my-0 mx-0 container-fluid site-header bg-lightblue2">
 
       <div class="row mx-0 ">
 
@@ -136,7 +136,7 @@
           {% for station in stations %}
 
                 <div class="col themed-grid-col">
-                    <div class="card">
+                    <div class="card h-100">
                         <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="card-img-top img-fluid" alt="{{ station.meta.title }} logo">
                         <div class="card-body">
                             <h5 class="card-title">{{ station.title }}{% if station.meta.recommended is defined %} {% for rec in station.meta.recommended %}<h6><span class="position-absolute top-0 start-20 translate-middle badge bg-dark">{{ rec }}</span></h6>{% endfor %}{% endif %}</h5>
