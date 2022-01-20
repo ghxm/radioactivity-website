@@ -37,10 +37,10 @@ html { font-size: calc((0.9em + 0.1vw)); }
 
 @media screen and (max-width: 768px){
 .site-header {
-  height: 15rem;
+  height: 13rem;
 }
 .page {
-    padding-top: 16rem;
+    padding-top: 14rem;
 }
 }
 
