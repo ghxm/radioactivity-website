@@ -173,23 +173,28 @@
 </footer>
 
   <script>
+
+  const originalTitle = document.getElementsByTagName('title')[0].innerHTML;
+
   function loadStream(stationName, streamUrl){
       
       var player=document.getElementById('audio-player');
       var source=document.getElementById('audio-source');
       var listening=document.getElementById('player-station');
+      var title=document.getElementsByTagName('title')[0];
       
       source.src=streamUrl;
-      listening.innerHTML=stationName;
       
       player.load(); //just start buffering (preload)
       player.play(); //start playing
+
+      listening.innerHTML = stationName;
+      title.innerHTML = originalTitle + " (" + stationName + ")";
   }
 
   </script>
 
 {% if url_param('random', 'boolean') %}
-
 
     {% set random_station = random(pages('_stations')) %}
     {% set random_station_name =  random_station.meta.title %}
