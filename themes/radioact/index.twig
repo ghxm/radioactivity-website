@@ -136,7 +136,7 @@
           {% for station in stations %}
 
                 <div class="col themed-grid-col">
-                    <div class="card h-100">
+                    <div class="station-card rounded-0 card h-100">
                         <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="card-img-top img-fluid d-none d-sm-block" alt="{{ station.meta.title }} logo">
                         <div class="card-body">
                             <h5 class="card-title">{{ station.title }}{% if station.meta.recommended is defined %} {% for rec in station.meta.recommended %}<h6><span class="position-absolute top-0 start-20 translate-middle badge bg-dark">{{ rec }}</span></h6>{% endfor %}{% endif %}</h5>
