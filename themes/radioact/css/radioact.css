@@ -22,6 +22,10 @@
     background-color: var(--lightblue3) !important;
 }
 
+.border-black {
+    border-color: black!important;
+}
+
 .fw-900 {
     font-weight: 900;
 }
