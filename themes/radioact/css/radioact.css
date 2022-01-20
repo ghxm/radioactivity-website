@@ -38,6 +38,10 @@
     border-color: black;
 }
 
+#chat-card {
+    min-height: 28rem;
+}
+
 .card-img-top {
     border-bottom: 1px solid black;
     height: calc(14vh + 0.4vw);

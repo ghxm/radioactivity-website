@@ -124,10 +124,10 @@
               <td>{{ station.meta.play_time }}</td>
               <td>{% if station.meta.recommended is defined %}{% for rec in station.meta.recommended %}<span class="align-middle badge bg-dark rec-badge">{{ rec }}</span>{% endfor %}{% endif %}</td>
               <td>{{ station.meta.description }}</td>
-              <td>{% for stream in station.meta.stream_url %}<button class="btn btn-link py-0" type="button" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}')"><span class="iconify" data-icon="bi:play-fill"></span></button>{% endfor %}</td>
+              <td>{% for stream in station.meta.stream_url %}<button class="btn btn-link py-0" type="button" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}')"><span class="iconify" data-icon="bi:play-fill"></span></button><noscript>enable <code>js</code></noscript>{% endfor %}</td>
               <td><a href="{{ station.meta.url }}">{{ station.meta.url|replace({'https://': '', 'http://': '', 'www.': '', '/': ''}) }}/</a></td>
               <td><a class="btn btn-link py-0  fw-900" href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: "
-              class="link-danger{% endif %}">{% if station.meta.support is not empty %}<span class="iconify" data-icon="clarity:cursor-hand-grab-line"></span>{% else %}<span class="iconify" data-icon="fluent:mail-24-regular"></span>{% endif %}</a></td>
+              class="link-danger{% endif %}">{% if station.meta.support is not empty %}<span class="iconify" data-icon="clarity:cursor-hand-grab-line"></span><noscript>submit support link</noscript>{% else %}<span class="iconify" data-icon="fluent:mail-24-regular"></span><noscript>support</noscript>{% endif %}</a></td>
             </tr>
           {% endfor %}
 
@@ -161,9 +161,12 @@
 
             {% endfor %}
 
-            <div class="col themed-grid-col">
+            <div class="col d-none d-sm-block themed-grid-col" id="chat-card">
             <div class="station-card rounded-0 card h-100 p-3">
               <script id="cid0020000303683296493" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%;height: 100%;">{"handle":"radirectory","arch":"js","styles":{"a":"ffffff","c":"000000","d":"000000","f":0,"i":0,"k":"000000","l":"000000","m":"CC0000","n":"FFFFFF","p":"10.26","q":"000000","usricon":0,"sbc":"000000","fwtickm":1}}</script>
+              <noscript><p>Please enable JavaScript to see the chatroom or enable JavaScript and go to <a href="https://radirectory.chatango.com">radirectory.chatango.com</a>.</p></noscript>
+            </div>
+            </div>
         {% endif %}
 
 
