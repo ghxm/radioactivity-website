@@ -1,6 +1,6 @@
 ---
 title: DO!! YOU!!! Radio
-logo: doyou.png
+logo: doyou.jpeg
 stream_url:
     - ["station", "https://mxhg.uber.space/doyou"]
 description: "DO!! YOU!!! with Charlie Bones."
