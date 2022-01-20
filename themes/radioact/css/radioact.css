@@ -30,6 +30,10 @@
     border:1px solid black;
 }
 
+.station-table {
+    border-color: black;
+}
+
 .card-img-top {
     border-bottom: 1px solid black;
     height: calc(14vh + 0.4vw);
