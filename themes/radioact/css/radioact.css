@@ -54,17 +54,18 @@
 }
 
 #tagline {
-    margin-bottom:0.85rem;
+    margin-top: 0.2rem;
+    margin-bottom:0.8rem;
 }
 
 
 #tagmenu {
-    font-size: calc((0.8em + 0.5vw)) !important;
+    font-size: calc((0.8em + 0.4vw)) !important;
 }
 
 #audio-player {
-    width: calc(12em + 5vw);
-    height: 3.5em;
+    width: calc(14em + 5vw);
+    height: 2.8em;
 }
 
 #player-station {
