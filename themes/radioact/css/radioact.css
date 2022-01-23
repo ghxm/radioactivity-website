@@ -32,11 +32,11 @@
 
 .station-card {
     border:1px solid black;
-    scroll-margin-top: 14rem;
+    scroll-margin-top: 12.5rem;
 }
 
 .station-row {
-    scroll-margin-top: 14rem;
+    scroll-margin-top: 12rem;
 }
 
 .station-table {

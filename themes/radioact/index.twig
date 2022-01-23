@@ -54,13 +54,13 @@
       <div class="row mx-0 ">
 
       <h2 class="mb-0">{{ current_page.title }} <a title="suggest a station (via e-mail)" href="mailto:{{ config.contact }}" style="text-decoration: none;">+<sup><span class="fs-6">@</span></sup></a></h2>
-      <p id="tagline">shamelessly copied from <a href="https://www.thewire.co.uk/issues/449" target="_blank">The Wire</a> magazine.</p>
+      <p id="tagline" class= "d-none d-md-block" >shamelessly copied from <a href="https://www.thewire.co.uk/issues/449" target="_blank">The Wire</a> magazine.</p>
 
       </div>
 
       <div class="row my-0 mx-0">
 
-        <div class="col-md-3 ml-2 col-sm-2">
+        <div class="col-md-3 ml-2 col-sm-2 mt-2 mt-md-1 mb-2 mb-md-1">
             <audio id="audio-player" controls="controls">
               <source id="audio-source" src="" type="audio/mp3" />
               Your browser does not support the audio element.
@@ -209,7 +209,7 @@
     {% set random_station_url = random(random_station.meta.stream_url)[1] %}
 
     <script>
-    loadStream('{{random_station_name}}', '{{random_station_url}}')
+    loadStream('{{random_station_name}}', '{{random_station_url}}', '{{random_station.id | split('/') | last}}');
     </script>
 
 {% endif %}
