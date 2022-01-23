@@ -49,11 +49,11 @@
 
     
     <div>
-    <header class="border-top border-black px-0 py-1 py-sm-3 my-0 mx-0 container-fluid site-header bg-lightblue2">
+    <header class="border-top border-black px-2 py-1 py-sm-3 my-0 mx-0 container-fluid site-header bg-lightblue2">
 
       <div class="row mx-0 ">
 
-      <h2 class="mb-0">{{ current_page.title }} <a title="suggest a station (via e-mail)" href="mailto:{{ config.contact }}" style="text-decoration: none;">+<sup><span class="fs-6">@</span></sup></a></h2>
+      <h2 class="mb-0 mt-1">{{ current_page.title }} <a title="suggest a station (via e-mail)" href="mailto:{{ config.contact }}" style="text-decoration: none;">+<sup><span class="fs-6">@</span></sup></a></h2>
       <p id="tagline" class= "d-none d-md-block" >shamelessly copied from <a href="https://www.thewire.co.uk/issues/449" target="_blank">The Wire</a> magazine.</p>
 
       </div>
@@ -88,7 +88,7 @@
 
     <section class="page">
 
-      <div class="row mx-0 row-cols-xl-5 row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 mb-3">
+      <div class="row mx-2 row-cols-xl-5 row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 mb-3">
 
         {% set stations = pages('_stations') %}
 
