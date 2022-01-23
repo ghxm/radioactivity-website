@@ -145,7 +145,14 @@
                             <h5 class="card-title">{{ station.title }}{% if station.meta.recommended is defined %} {% for rec in station.meta.recommended %}<h6><span class="position-absolute top-0 start-20 translate-middle badge bg-dark">{{ rec }}</span></h6>{% endfor %}{% endif %}</h5>
                             <h6 class="card-subtitle mb-2 text-muted"><span alt="location">{{ station.meta.location }}</span></h6>
                             <h6 class="card-subtitle mb-2 text-muted"><span alt="hours">{{ station.meta.play_time }}</span></h6>
-                            <p class="card-text station-description">{{ station.meta.description }}</p>
+                            <div class="d-md-none">
+                              <details>
+                                <p class="card-text station-description">{{ station.meta.description }}</p>
+                              </details>
+                            </div>
+                            <div class="d-none d-md-block">
+                                <p class="card-text station-description">{{ station.meta.description }}</p>
+                            </div>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><a href="{{station.meta.url}}" target="_blank">Website</a></li>
