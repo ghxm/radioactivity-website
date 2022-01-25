@@ -71,7 +71,7 @@
 
         <div class="d-flex col-md-6 align-items-center">
           <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href='{{ current_page.id|link("#{url_params}&random=true") }}'>Play a random station</a> or <a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'>shuffle grid</a> or<wbr> {% if url_param('onair', 'boolean') %}
-            <a class="" href='{{ current_page.id|link("#{url_params}&onair=false") }}''>show all stations</a>
+            <a class="" href='{{ current_page.id|link("#{url_params}&onair=false") }}'>show all stations</a>
             {% else %}
             <a class="" href='{{ current_page.id|link("#{url_params}&onair=true") }}''>show only stations that are live right now</a>{% endif %}. <span class="d-none d-sm-inline-block">View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}.</span></p>
         </div>
