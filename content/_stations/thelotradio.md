@@ -2,7 +2,7 @@
 title: "The Lot Radio"
 logo: thelotradio.png
 stream_url:
-    - ["station", "https://streamingv2.shoutcast.com/the-lot-radio"]
+- [station, https://streamingv2.shoutcast.com/the-lot-radio, online]
 description: "We are an independent, non-profit, online radio station live streaming 24/7 from a reclaimed shipping container on an empty lot."
 url: "https://www.thelotradio.com/"
 location: New York, US

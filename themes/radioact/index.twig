@@ -53,7 +53,7 @@
 
       <div class="row mx-0 ">
 
-      <h2 class="mb-0 mt-1">{{ current_page.title }} <a title="suggest a station (via e-mail)" href="mailto:{{ config.contact }}" style="text-decoration: none;">+<sup><span class="fs-6">@</span></sup></a></h2>
+      <h2 class="mb-0 mt-1"><a href="{{ base_url }}" class="text-decoration-none text-reset">{{ current_page.title }}</a> <a title="suggest a station (via e-mail)" href="mailto:{{ config.contact }}" style="text-decoration: none;">+<sup><span class="fs-6">@</span></sup></a></h2>
       <p id="tagline" class= "d-none d-md-block" >shamelessly copied from <a href="https://www.thewire.co.uk/issues/449" target="_blank">The Wire</a> magazine.</p>
 
       </div>
@@ -70,7 +70,10 @@
         <div class="d-none d-sm-block col-1 mx-0"></div>
 
         <div class="d-flex col-md-6 align-items-center">
-          <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href="{{ current_page.id|link('random=true') }}">Play a random station</a> or <a onclick="" href="{{ current_page.id|link('shuffle=true') }}">shuffle grid</a> or<wbr> <a class="text-muted" title="Functionality currently not implemented" href="#">show only stations that are live right now</a>. <span class="d-none d-sm-inline-block">View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}.</span></p>
+          <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href='{{ current_page.id|link("#{url_params}&random=true") }}'>Play a random station</a> or <a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'>shuffle grid</a> or<wbr> {% if url_param('onair', 'boolean') %}
+            <a class="" href='{{ current_page.id|link("#{url_params}&onair=false") }}''>show all stations</a>
+            {% else %}
+            <a class="" href='{{ current_page.id|link("#{url_params}&onair=true") }}''>show only stations that are live right now</a>{% endif %}. <span class="d-none d-sm-inline-block">View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}.</span></p>
         </div>
 
         </div>
@@ -91,6 +94,10 @@
       <div class="row mx-2 row-cols-xl-5 row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 mb-3">
 
         {% set stations = pages('_stations') %}
+
+        {% if url_param('onair', 'boolean') or url_param('random', boolean) %}
+          {% set stations = stations | filter(station => station.meta.stream_url[0] is not empty and station.meta.stream_url[0][2] is not empty and station.meta.stream_url[0][2] == "online") %} <!-- filter online stations depending on whether first stream in list is online (should therefore always be main station) -->
+        {% endif %}
 
         {% if url_param('shuffle', 'boolean') %}
             {% set random_stations = [] %}
@@ -124,7 +131,16 @@
               <td>{{ station.meta.play_time }}</td>
               <td>{% if station.meta.recommended is defined %}{% for rec in station.meta.recommended %}<span class="align-middle badge bg-dark rec-badge">{{ rec }}</span>{% endfor %}{% endif %}</td>
               <td>{{ station.meta.description }}</td>
-              <td>{% for stream in station.meta.stream_url %}<button class="btn btn-link py-0" type="button" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}', '{{ station.id | split('/') | last }}')"><span class="iconify" data-icon="bi:play-fill"></span></button><noscript>enable <code>js</code></noscript>{% endfor %}</td>
+              <td>{% for stream in station.meta.stream_url %}
+                {% if stream[2] is empty  %}
+                  {% set online_status = '' %}
+                {% else %}
+                  {% set online_status = stream[2] %}
+                {% endif %}
+                <button class="btn btn-link py-0" type="button" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}', '{{ station.id | split('/') | last }}')">
+                  <span title="station appears to be {{ online_status }}" class="dot-air {{ online_status }}"></span><span class="iconify" data-icon="bi:play-fill"></span>
+                </button>
+                <noscript>enable <code>js</code></noscript>{% endfor %}</td>
               <td><a href="{{ station.meta.url }}">{{ station.meta.url|replace({'https://': '', 'http://': '', 'www.': '', '/': ''}) }}/</a></td>
               <td><a class="btn btn-link py-0  fw-900" href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: "
               class="link-danger{% endif %}">{% if station.meta.support is not empty %}<span class="iconify" data-icon="clarity:cursor-hand-grab-line"></span><noscript>submit support link</noscript>{% else %}<span class="iconify" data-icon="fluent:mail-24-regular"></span><noscript>support</noscript>{% endif %}</a></td>
@@ -158,7 +174,12 @@
                             <li class="list-group-item"><a href="{{station.meta.url}}" target="_blank">Website</a></li>
                             <li class="list-group-item"><a href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " class="link-danger{% endif %}">{% if station.meta.support is empty %}Submit a support link{% else %}Support the station</a>{% endif %}</a></li>
                             {% for stream in station.meta.stream_url %}
-                            <button class="list-group-item fw-bold" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}', '{{ station.id | split('/') | last }}')">Play {{ stream[0] }}</button>
+                            {% if stream[2] is empty  %}
+                              {% set online_status = '' %}
+                            {% else %}
+                              {% set online_status = stream[2] %}
+                            {% endif%}
+                            <button class="list-group-item fw-bold" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}', '{{ station.id | split('/') | last }}')"><span title="station appears to be {{ online_status }}" class="dot-air {{ online_status }}"></span></span>Play {{ stream[0] }}</button>
                             {% endfor %}
                         </ul>
                     </div>
@@ -211,7 +232,7 @@
 
 {% if url_param('random', 'boolean') %}
 
-    {% set random_station = random(pages('_stations')) %}
+    {% set random_station = random(stations) %}
     {% set random_station_name =  random_station.meta.title %}
     {% set random_station_url = random(random_station.meta.stream_url)[1] %}
 
