@@ -70,11 +70,19 @@
         <div class="d-none d-sm-block col-1 mx-0"></div>
 
         <div class="d-flex col-md-6 align-items-center">
-          <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href='{{ current_page.id|link("#{url_params}&random=true") }}'>Play a random station</a> or <a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'>shuffle grid</a> or<wbr> {% if url_param('onair', 'boolean') %}
-            <a class="" href='{{ current_page.id|link("#{url_params}&onair=false") }}'>show all stations</a>
+          <noscript>
+          <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href='{{ current_page.id|link("#{url_params}&random=true") }}'>Play a random station</a> or <a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true&random=false") }}'>shuffle grid</a> or<wbr> {% if url_param('onair', 'boolean') %}
+            <a class="" href='{{ current_page.id|link("#{url_params}&onair=false&random=false") }}'>show all stations</a>
             {% else %}
-            <a class="" href='{{ current_page.id|link("#{url_params}&onair=true") }}''>show only stations that are live right now</a>{% endif %}. <span class="d-none d-sm-inline-block">View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}.</span></p>
-        </div>
+            <a class="" href='{{ current_page.id|link("#{url_params}&onair=true") }}''>show only stations that are live right now</a>{% endif %}. <span class="d-none d-sm-inline-block">View {% if url_param('display', 'string') == 'list' %}<a href='{{ current_page.id|link("#{url_params}&display=grid&&shuffle=false") }}''>as grid</a>{%else %}<a href='{{ current_page.id|link("#{url_params}&display=list&shuffle=false") }}'>as list</a>{% endif %}.</span></p>
+          </noscript>
+          <!-- javascript version of the menu (to allow for (play) paramters)-->
+          <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href="javascript:urlWithParam({'random': true}, true)">Play a random station</a> or <a onclick="" href="javascript:urlWithParam({'random': false, 'shuffle': true}, true)">shuffle grid</a> or<wbr> {% if url_param('onair', 'boolean') %}
+            <a class="" href="javascript:urlWithParam({'random': false, 'onair': false}, true)">show all stations</a>
+            {% else %}
+            <a class="" href="javascript:urlWithParam({'random': false, 'onair': true}, true)">show only stations that are live right now</a>{% endif %}. <span class="d-none d-sm-inline-block">View {% if url_param('display', 'string') == 'list' %}<a href="javascript:urlWithParam({'random': false,'display': 'grid', 'shuffle': false}, true)">as grid</a>{%else %}<a href="javascript:urlWithParam({'random': false, 'display': 'list', 'shuffle': false}, true)">as list</a>{% endif %}.</span></p>
+
+          </div>
 
         </div>
 
@@ -137,7 +145,7 @@
                 {% else %}
                   {% set online_status = stream[2] %}
                 {% endif %}
-                <button class="btn btn-link py-0" type="button" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}', '{{ station.id | split('/') | last }}')">
+                <button class="btn btn-link py-0" type="button" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}', '{{ station.id | split('/') | last }}', '{{ stream[0] }}')">
                   <span title="station appears to be {{ online_status }}" class="dot-air {{ online_status }}"></span><span class="iconify" data-icon="bi:play-fill"></span>
                 </button>
                 <noscript>enable <code>js</code></noscript>{% endfor %}</td>
@@ -179,7 +187,7 @@
                             {% else %}
                               {% set online_status = stream[2] %}
                             {% endif%}
-                            <button class="list-group-item fw-bold" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}', '{{ station.id | split('/') | last }}')"><span title="station appears to be {{ online_status }}" class="dot-air {{ online_status }}"></span></span>Play {{ stream[0] }}</button>
+                            <button class="list-group-item fw-bold" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}', '{{ station.id | split('/') | last }}', '{{ stream[0] }}')"><span title="station appears to be {{ online_status }}" class="dot-air {{ online_status }}"></span></span>Play {{ stream[0] }}</button>
                             {% endfor %}
                         </ul>
                     </div>
@@ -208,11 +216,40 @@
   All times in local station time.
 </footer>
 
+
+<script>  
+
+  function urlWithParam(params, addExisting=true) {
+    var url = new URL(window.location.href);
+
+    var p = []
+
+    Object.entries(params).forEach(itm=>p.push({key: itm[0], value: itm[1]}));
+
+/* HIER WEITER */
+
+    if(addExisting){
+      var existingParams = url.searchParams;
+      for (var param of existingParams) {
+        if(!p.includes(param) & typeof param === 'string'){
+          p.append(param);
+        }
+      }
+    }
+
+    for (var newparam of p) {
+        url.searchParams.set(newparam.key, newparam.value);
+    }
+    window.location.replace(url.href);
+  }
+
+</script>
+
   <script>
 
   const originalTitle = document.getElementsByTagName('title')[0].innerHTML;
 
-  function loadStream(stationName, streamUrl, streamID){
+  function loadStream(stationName, streamUrl, stationID, streamID){
       
       var player=document.getElementById('audio-player');
       var source=document.getElementById('audio-source');
@@ -222,10 +259,26 @@
       source.src=streamUrl;
       
       player.load(); //just start buffering (preload)
-      player.play(); //start playing
 
-      listening.innerHTML = '<a title="jump to station in grid/list" class="text-reset text-decoration-none" href="#'+ streamID + '">' + stationName + '</a>';
+      var textStationStream = "";
+
+      if(!(streamID == 'station') && !(streamID == stationName)){
+        textStationStream = ' (' + streamID + ')';
+      }
+
+
+      listening.innerHTML = '<a title="jump to station in grid/list" class="text-reset text-decoration-none" href="#'+ stationID + '">' + stationName + '</a>';
+      listening.outerHTML = listening.outerHTML + textStationStream;
       title.innerHTML = originalTitle + " (" + stationName + ")";
+
+      var currentPlayParam = "{{ url_param('play', 'string') }}";
+
+      if(!currentPlayParam.includes(stationID) & !currentPlayParam.includes(streamID)){
+        var newurl = urlWithParam({'play': stationID + '/' + streamID, 'random': false}, true);
+        window.history.pushState({ path: newurl }, '', newurl);
+      }
+
+      player.play(); //start playing
   }
 
   </script>
@@ -234,13 +287,37 @@
 
     {% set random_station = random(stations) %}
     {% set random_station_name =  random_station.meta.title %}
-    {% set random_station_url = random(random_station.meta.stream_url)[1] %}
+    {% set random_station_stream = random(random_station.meta.stream_url) %}
+    {% set random_station_id = random_station.id | split('/') | last %}
+    {% set random_station_stream_id = random_station_stream[0] %}
+    {% set random_station_stream_url = random_station_stream[1] %}
 
     <script>
-    loadStream('{{random_station_name}}', '{{random_station_url}}', '{{random_station.id | split('/') | last}}');
+    loadStream('{{ random_station_name }}', '{{random_station_stream_url}}', '{{ random_station_id }}', '{{ random_station_stream_id }}');
     </script>
 
+{% else %}
+
+    <!-- play currently playing station -->
+    {% if url_param('play', 'string')|trim|length > 1 %}
+      {% set play = url_param('play', 'string')|split('/') %}
+      {% set play_station = pages["_stations/#{play[0]}"] %}
+      {% set play_station_stream_id = "" %}
+      {% set play_station_stream_url = "" %}
+      {% for s in play_station.meta.stream_url %}
+        {% if s[0] == play[1] %}
+          {% set play_station_stream_id = s[0] %}
+          {% set play_station_stream_url = s[1] %}
+        {% endif %}
+      {% endfor %}
+
+
+      <script>loadStream('{{ play_station.meta.title }}', '{{ play_station_stream_url }}', '{{ play_station.id | split("/") |last }}', '{{ play_station_stream_id }}')</script>
+    {% endif %}
+
 {% endif %}
+
+
 
 <script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script>
 
