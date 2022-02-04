@@ -22,6 +22,14 @@
     background-color: var(--lightblue3) !important;
 }
 
+.bg-offwhite{
+    background-color: #fefdfb !important;
+}
+
+.bg-offwhite2{
+    background-color: #e5e5e5 !important;
+}
+
 .border-black {
     border-color: black!important;
 }
