@@ -13,7 +13,7 @@
       {% else %}
         {% set end = 'false' %}
       {% endif %}
-        "{{ station.id }}": {{ station.meta|json_encode() }}{% if end == 'false' %},{% endif %}
+        "{{ station.id|replace({'_stations/': ""}) }}": {{ station.meta|json_encode() }}{% if end == 'false' %},{% endif %}
       {% endfor %}
 
     
