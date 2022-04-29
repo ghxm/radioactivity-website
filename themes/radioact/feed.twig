@@ -1,0 +1,30 @@
+<html>
+
+<head>
+<script id="api" type="application/javascript">
+
+{% set i = 0 %}
+
+  {
+      {% for station in pages('_stations') %}
+      {% set i = i + 1 %}
+      {% if i == pages('_stations')|length %}
+        {% set end = 'true' %}
+      {% else %}
+        {% set end = 'false' %}
+      {% endif %}
+        "{{ station.id }}": {{ station.meta|json_encode() }}{% if end == 'false' %},{% endif %}
+      {% endfor %}
+
+    
+  }
+
+</script>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
