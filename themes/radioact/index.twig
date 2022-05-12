@@ -127,7 +127,8 @@
             </tr>
           </thead>
           <tbody>
-          {% for station in stations %}
+          {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
+
             <tr class = "station-row" id="{{ station.id | split('/') | last }}"">
               <th scope="row">{{ station.title }}</th>
               <td>{{ station.meta.location }}</td>
@@ -155,8 +156,8 @@
 
         {% else %}
 
-          {% for station in stations %}
-
+          {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
+        
                 <div class="col themed-grid-col">
                     <div id="{{ station.id | split('/') | last }}" class="station-card rounded-0 card h-100">
                         <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="rounded-0 card-img-top img-fluid d-none d-sm-block" alt="{{ station.meta.title }} logo">
