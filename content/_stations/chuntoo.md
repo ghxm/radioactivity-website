@@ -2,7 +2,8 @@
 title: "ChuntFM"
 logo: none
 stream_url:
-- [station, https://fm.chunt.org/stream, online]
+- [chunt1, https://fm.chunt.org/stream, online]
+- [chunt2, https://fm.chunt.org/stream2, online]
 description: ""
 url: ""
 location: ""
