@@ -7,5 +7,5 @@ description: "Radio Tempo Não Pára (Portuguese for Time Does Not Stop) is an i
 url: "https://radio-tnp.com/"
 location: Amsterdam, NL
 play_time: tba?/Fri-Sat
-recommended: ["ba"]
+recommended: ["ba", 'ron']
 ---
