@@ -1,5 +1,5 @@
 ---
-title: "Freeform Portland"" 
+title: "Freeform Portland"
 logo: freeformportland.svg
 stream_url:
 - [station, http://listen.freeformportland.org:8000/stream, online]
