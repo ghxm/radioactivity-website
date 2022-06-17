@@ -50,6 +50,9 @@
 
 <body class="bg-offwhite">
 
+  {% set stations = pages('_stations') %}
+
+
     
     <div>
     <header class="border-top border-black px-2 py-1 py-sm-3 my-0 mx-0 container-fluid site-header bg-white">
@@ -74,38 +77,17 @@
 
         <div class="d-none d-sm-block col-1 mx-0"></div>
 
-        {% set stations = pages('_stations') %}
-
-        {% if url_param('onair', 'boolean') or url_param('random', boolean) %}
-        {% set stations = stations | filter(station => station.meta.stream_url[0] is not empty and station.meta.stream_url[0][2] is not empty and station.meta.stream_url[0][2] == "online") %} <!-- filter online stations depending on whether first stream in list is online (should therefore always be main station) -->
-      {% endif %}
-
-      {% if url_param('shuffle', 'boolean') %}
-          {% set random_stations = [] %}
-          {% for i in 1..stations | length %}
-            {% set random_stations = random_stations | merge([random(stations | filter(value => value not in random_stations))]) %}
-          {% endfor %}
-          {% set stations = random_stations %}
-      {% endif %}
-
         <div class="d-flex col-md-6 align-items-center">
           <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href='{{ current_page.id|link("#{url_params}&random=true") }}'>Play a random station</a> or <a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'>shuffle grid</a> or<wbr> {% if url_param('onair', 'boolean') %}
             <a class="" href='{{ current_page.id|link("#{url_params}&onair=false") }}'>show all stations</a>
             {% else %}
-            <a class="" href='{{ current_page.id|link("#{url_params}&onair=true") }}''>show only stations that are live right now</a>{% endif %}. <span class="d-none d-sm-inline-block">View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %} or <select name="stations" class ="form-select-sm d-inline">
-              <option selected disabled>jump to...</option>
-              {% for station in stations %}
-              <option value="#{{ station.id | split('/') | last }}">{{ station.title }}</option>
-              {% endfor %}</select> .</span></p>
+            <a class="" href='{{ current_page.id|link("#{url_params}&onair=true") }}''>show only stations that are live right now</a>{% endif %}<span class="d-none d-sm-inline-block">. View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}</span><span class = "d-none" id="selectorspan""> or <select class="small" id="stationselect" style="max-width:30%;">
+              <option selected disabled>jump to</option>
+              {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
+                <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
+              {% endfor %}
+            </select> </span>.</p>
         </div>
-
-<!--- TODO
-- Select menu
-  - only show when javascript enabled
-  - show only non hidden stations
-  - enable jump via simple javascript
-  - test mobile
--->
 
         </div>
 
@@ -116,7 +98,10 @@
 
             <!---@TODO add chunt option -->
 
+
+
     <div>
+
 
     <div>
 
@@ -125,6 +110,17 @@
       <div class="row mx-2 row-cols-xl-5 row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 mb-3">
 
 
+        {% if url_param('onair', 'boolean') or url_param('random', boolean) %}
+          {% set stations = stations | filter(station => station.meta.stream_url[0] is not empty and station.meta.stream_url[0][2] is not empty and station.meta.stream_url[0][2] == "online") %} <!-- filter online stations depending on whether first stream in list is online (should therefore always be main station) -->
+        {% endif %}
+
+        {% if url_param('shuffle', 'boolean') %}
+            {% set random_stations = [] %}
+            {% for i in 1..stations | length %}
+              {% set random_stations = random_stations | merge([random(stations | filter(value => value not in random_stations))]) %}
+            {% endfor %}
+            {% set stations = random_stations %}
+        {% endif %}
 
         {% if url_param('display', 'string') == 'list' %}
 
@@ -227,6 +223,20 @@
   This is a website under development meant for private use only. Copyrights for the content are held by the respective station owners.<br>
   All times in local station time.
 </footer>
+
+<!--- make selector jump to-->
+<script>
+
+  // make span show up
+
+  document.getElementById('selectorspan').className = "d-inline";; // or 'block', or whatever.
+
+  // jump on slection change
+
+  document.getElementById('stationselect').onchange= function() {
+    window.location.hash=this.value;
+  };
+</script>
 
   <script>
 
