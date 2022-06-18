@@ -68,7 +68,7 @@
 
       <div class="row my-0 mx-0">
 
-        <div class="col-md-3 ml-2 col-sm-2 mt-2 mt-md-1 mb-2 mb-md-1">
+        <div class="col-md-3 ml-2 col-sm-2 mt-2 mt-md-1 mb-md-2 mb-sm-1">
             <audio id="audio-player" controls="controls">
               <source id="audio-source" src="" type="audio/mp3" />
               Your browser does not support the audio element.
@@ -81,7 +81,7 @@
           <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href='{{ current_page.id|link("#{url_params}&random=true") }}'>Play a random station</a> or <a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'>shuffle grid</a> or<wbr> {% if url_param('onair', 'boolean') %}
             <a class="" href='{{ current_page.id|link("#{url_params}&onair=false") }}'>show all stations</a>
             {% else %}
-            <a class="" href='{{ current_page.id|link("#{url_params}&onair=true") }}''>show only stations that are live right now</a>{% endif %}<span class="d-none d-sm-inline-block">. View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}</span><span class = "d-none" id="selectorspan""> or <select class="small" id="stationselect" style="max-width:30%;">
+            <a class="" href='{{ current_page.id|link("#{url_params}&onair=true") }}''>show only stations that are live right now</a>{% endif %}<span class="d-none d-sm-inline-block">. View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}</span><span class = "d-none" id="selectorspan""> or <select class="small" id="stationselect" style="max-width:28%;">
               <option selected disabled>jump to</option>
               {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
                 <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
