@@ -1,6 +1,6 @@
 ---
 title: "ChuntFM"
-logo: chuntfm.jpeg
+logo: chuntfm.png
 stream_url:
 - ['live', https://fm.chunt.org/stream, online]
 - ['jukebox', https://fm.chunt.org/stream2, online]
