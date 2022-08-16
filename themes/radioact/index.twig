@@ -205,11 +205,15 @@
 
             {% endfor %}
 
-            <div class="col d-none d-sm-block themed-grid-col" id="chat-card">
-            <div class="station-card rounded-0 card h-100 p-1">
-              <script id="cid0123456790" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%;height: 100%;">{"handle":"chuntoo","arch":"js","styles":{"a":"ffffff","c":"000000","d":"000000","f":0,"i":0,"k":"000000","l":"000000","m":"CC0000","n":"FFFFFF","p":"10.26","q":"000000","usricon":0,"sbc":"000000","fwtickm":0}}</script>
-              <noscript><p>Please enable JavaScript to see the chatroom or enable JavaScript and go to <a href="https://chuntoo.chatango.com">chuntoo.chatango.com</a>.</p></noscript>
-            </div>
+            <div class="col d-none d-sm-block themed-grid-col d-none" id="chat-card">
+                          <div class="station-card rounded-0 card h-100 p-1">
+                                          <button id="btn-load-chat" class="btn" onclick="loadChat()">Load chatroom</button>
+                                          <button id="btn-open-chat" class="btn" onclick="window.open('https://chuntoo.chatango.com');">Open chatroom in new window</button>
+                                        <script id="chatangoscript" class="d-none" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%;height: 100%;">{"handle":"chuntoo","arch":"js","styles":{"a":"ffffff","c":"000000","d":"000000","f":0,"i":0,"k":"000000","l":"000000","m":"CC0000","n":"FFFFFF","p":"10.26","q":"000000","usricon":0,"sbc":"000000","fwtickm":0}}</script>
+                                        <noscript><p>Please enable JavaScript to see the chatroom or enable JavaScript and go to <a href="https://chuntoo.chatango.com">chuntoo.chatango.com</a>.</p></noscript>
+                          </div>
+
+
             </div>
         {% endif %}
 
@@ -224,12 +228,31 @@
   All times in local station time.
 </footer>
 
+<script>
+
+// make chat card visible by removing d-none class
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById('chat-card').classList.remove('d-none');
+});
+
+// function to load chatangao chat
+function loadChat() {
+    document.getElementById('btn-load-chat').classList.add('d-none');
+    document.getElementById('btn-open-chat').classList.add('d-none');
+  document.getElementById('chatangoscript').classList.remove('d-none');
+}
+
+</script>
+
 <!--- make selector jump to-->
 <script>
 
   // make span show up
+  document.addEventListener("DOMContentLoaded", function() {
 
-  document.getElementById('selectorspan').className = "d-inline";; // or 'block', or whatever.
+
+    document.getElementById('selectorspan').className = "d-inline"; // or 'block', or whatever.
+  });
 
   // jump on slection change
 
