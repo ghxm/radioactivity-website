@@ -107,15 +107,22 @@
             {% set snum = snum + 1 %}
                 <div id = "{{ snum }}" class="col themed-grid-col {% if url_param(station.id | split('/') | last, 'boolean') %}d-block{% else %}d-none{% endif %}">
                     <div id="{{ station.id | split('/') | last }}" class="station-card rounded-0 card h-100">
-                        <button type="button" class="btn btn-sm btn-outline-primary ml-2 shadow-none" onclick = "deleteStation('{{ snum }}')">Remove</button>
+                        <ul class="list-group list-group-flush">
+                          <button type="button" class="list-group-item btn-remove btn btn-sm btn-outline-primary ml-2 shadow-none" onclick = "deleteStation('{{ snum }}')">Remove</button>
+                          <select class="w-100 form-select list-group-item" id="stationselect-ch3" onchange="switchStationCards('{{ station.id | split('/') | last }}', this.value)" s>
+                                <optgroup>
+                              <option selected disabled>Select station</option>
+                          {% for station in stations_sorted|filter((s) => s.id | split('/') | last != "chuntoo") %}
+                              <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
+                          {% endfor %}
+                            </optgroup>
+
+                          </select>
+                        </ul>
                         <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="rounded-0 card-img-top img-fluid d-none d-sm-block" alt="{{ station.meta.title }} logo">
                         <div class="card-body">
-                        <select class="w-100 mb-2" id="stationselect-ch3" onchange="switchStationCards('{{ station.id | split('/') | last }}', this.value)" s>
-                        <option selected disabled>Select station</option>
-                        {% for station in stations_sorted|filter((s) => s.id | split('/') | last != "chuntoo") %}
-                            <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
-                        {% endfor %}
-                        </select>
+
+                        <h5 class="card-title mb-3">{{ station.title }}</h5>
                             <audio id="audio-{{ station.id | split('/') | last }}" class="audio-ch3" controls="controls">
                                 <source id="audio-source-{{ station.id | split('/') | last }}" src="" type="audio/mp3" />
                                 Your browser does not support the audio element.
