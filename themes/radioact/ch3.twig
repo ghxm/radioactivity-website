@@ -85,9 +85,7 @@
 
       <div class="row mx-2 row-cols-xl-5 row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 mb-3">
 
-        {% if url_param('onair', 'boolean') or url_param('random', boolean) %}
-          {% set stations = stations | filter(station => station.meta.stream_url[0] is not empty and station.meta.stream_url[0][2] is not empty and station.meta.stream_url[0][2] == "online") %} <!-- filter online stations depending on whether first stream in list is online (should therefore always be main station) -->
-        {% endif %}
+        {% set stations = stations | filter(station => station.meta.stream_url[0] is not empty and station.meta.stream_url[0][2] is not empty and station.meta.stream_url[0][2] == "online") %} <!-- filter online stations depending on whether first stream in list is online (should therefore always be main station) -->
 
         {% set stations_sorted = stations %}
 
