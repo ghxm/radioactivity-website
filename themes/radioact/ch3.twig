@@ -60,6 +60,7 @@
 
       <p class="mb-0 mt-1 h2"> <!---<a href="{{ base_url }}" class="text-decoration-none text-reset">{{ current_page.title }}</a>--->
       <!--- add station button -->
+      <span class = "float-left">
       <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "addStation()">+</button>
       <button type = "button" class="btn btn-sm btn-outline-primary ml-2 mr-5" onclick = "deleteStation()">-</button>
                               
@@ -69,8 +70,12 @@
       <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "clearStations()">Clear</button>
 
 
-      <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "showRandomStations(n=2)">b2b</button>
-
+      <button  type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "showRandomStations(n=2)">b2b</button>
+      </span>
+      <span id = "btns-right" class = "float-end d-block" >
+      <input id = "input-link" type="text" class="form-inline small d-none" style="height:1.9rem;" value="">
+      <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "showLink()">Show link</button>
+      </span>
         </p>
       </div>
 
@@ -100,9 +105,9 @@
           {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
         
             {% set snum = snum + 1 %}
-                <div id = "{{ snum }}" class="col themed-grid-col d-none">
+                <div id = "{{ snum }}" class="col themed-grid-col {% if url_param(station.id | split('/') | last, 'boolean') %}d-block{% else %}d-none{% endif %}">
                     <div id="{{ station.id | split('/') | last }}" class="station-card rounded-0 card h-100">
-                        <button type="button" class="btn btn-sm btn-outline-primary ml-2" onclick = "deleteStation('{{ snum }}')">Remove</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary ml-2 shadow-none" onclick = "deleteStation('{{ snum }}')">Remove</button>
                         <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="rounded-0 card-img-top img-fluid d-none d-sm-block" alt="{{ station.meta.title }} logo">
                         <div class="card-body">
                         <select class="w-100 mb-2" id="stationselect-ch3" onchange="switchStationCards('{{ station.id | split('/') | last }}', this.value)" s>
@@ -153,14 +158,50 @@
 
   var snum_show = 0;
 
+  function showLink() {
+    var input = document.getElementById("input-link");
+
+    if (input.classList.contains("d-none")) {
+      input.classList.remove("d-none");
+      var link = createLink();
+      input.value = link;
+      input.innerHTML = "Hide link";
+    } else {
+      hideLink();
+    }
+
+
+
+;
+  }
+
+    function hideLink() {
+        var input = document.getElementById("input-link");
+        input.classList.add("d-none");
+        input.innerHTML = "Show link";
+
+    }
+
+    function createLink() {
+        // get all shown station
+        var stations = document.getElementsByClassName('col d-block');
+
+        var stations_shown = [];
+        for (var i = 0; i < stations.length; i++) {
+            stations_shown.push(stations[i].getElementsByClassName('station-card')[0].id);
+        }
+
+        var link = "{{ "ch3"|link }}?" + stations_shown.join('=true&') + "=true";
+
+        return link
+
+    }
 
     function getStationNum(stationID){
         return document.getElementById(stationID).parentNode.id;
     }
 
     function switchStationCards(toStation, fromStation) {
-
-
 
         var toStationNum = getStationNum(toStation)
         var fromStationNum = getStationNum(fromStation)
@@ -187,7 +228,11 @@
     }
 
 
+
+
     function clearStations() {
+
+      hideLink();
 
         pauseAll();
         // get all stations that are shown
@@ -214,6 +259,8 @@
 }
 
   function showRandomStations(n = 0) {
+
+    hideLink();
 
     clearStations();
 
@@ -270,6 +317,8 @@
 
   function addStation() {
 
+    hideLink();
+
     snum_show++;
       
     var toShow=document.getElementById(snum_show.toString());
@@ -280,6 +329,8 @@
   }
 
   function deleteStation(snum) {
+
+    hideLink();
  
     if (snum == null) {
     // get stations that are not hidden
