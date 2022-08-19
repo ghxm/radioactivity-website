@@ -110,4 +110,8 @@
     width: 100%;
 }
 
+#input-link[type='text'] {
+    height: 1.7rem !important;
+    font-size: 0.8rem;
+    font-family: monospace; }
 

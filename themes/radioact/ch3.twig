@@ -74,7 +74,7 @@
       </span>
       <span id = "btns-right" class = "float-end d-block" >
       <input id = "input-link" type="text" class="form-inline small d-none" style="height:1.9rem;" value="">
-      <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "showLink()">Show link</button>
+      <button id = "btn-link" type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "showLink()">Show link</button>
       </span>
         </p>
       </div>
@@ -160,12 +160,13 @@
 
   function showLink() {
     var input = document.getElementById("input-link");
+    var button = document.getElementById("btn-link");
 
     if (input.classList.contains("d-none")) {
       input.classList.remove("d-none");
       var link = createLink();
       input.value = link;
-      input.innerHTML = "Hide link";
+      button.innerHTML = "Hide link";
     } else {
       hideLink();
     }
@@ -177,8 +178,9 @@
 
     function hideLink() {
         var input = document.getElementById("input-link");
+        var button = document.getElementById("btn-link");
         input.classList.add("d-none");
-        input.innerHTML = "Show link";
+        button.innerHTML = "Show link";
 
     }
 
