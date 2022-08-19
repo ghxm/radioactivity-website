@@ -44,4 +44,30 @@ html { font-size: calc((0.9em + 0.1vw)); }
 }
 }
 
+.site-header-ch3 {
+  position: fixed;
+  z-index: 900;
+  left: 0;
+  width: 100%;
+  height: 5rem;
+  padding: 1rem 0;
+  background-color: #fff;
+  border-bottom: 0.8px solid #000;
+}
 
+
+.page-ch3 {
+margin: 0 auto;
+min-height: 100vh;
+padding-top: 6rem;
+padding-bottom: 4rem;
+}
+
+@media screen and (max-width: 768px){
+  .site-header-ch3 {
+    height: 5rem;
+  }
+  .page-ch3 {
+      padding-top: 6rem;
+  }
+  }

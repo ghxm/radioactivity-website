@@ -104,6 +104,10 @@
     background-color: lightgrey;
     margin-right: 0.5rem;
     display: inline-block;
-
-
 }
+
+
+
+.audio-ch3 {
+    width: 99% !important;
+  }

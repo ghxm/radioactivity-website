@@ -1,0 +1,362 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{ site_title }}{% if meta.title %} > {{ meta.title }}{% endif %}</title>
+    {% if meta.description %}
+        <meta name="description" content="{{ meta.description|striptags }}" />
+    {% endif %}
+    {% if meta.robots %}
+        <meta name="robots" content="{{ meta.robots }}" />
+    {% endif %}
+
+    {% if current_page %}
+        <link rel="canonical" href="{{ current_page.url }}" />
+    {% endif %}
+
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <link rel="mask-icon" href="assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="assets/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- Bootstrap core CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+
+    
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{{ theme_url }}/css/grid.css" type="text/css" />
+    <link rel="stylesheet" href="{{ theme_url }}/css/radioact.css" type="text/css" />
+
+{% block include_header_end %}
+
+{% endblock %}
+
+<!--
+  <script>if(!sessionStorage.getItem("_swa")&&document.referrer.indexOf(location.protocol+"//"+location.host)!== 0){fetch("https://counter.dev/track?"+new URLSearchParams({referrer:document.referrer,screen:screen.width+"x"+screen.height,user:"mxhg",utcoffset:"1"}))};sessionStorage.setItem("_swa","1");</script>
+-->
+
+  </head>
+
+<body class="bg-offwhite">
+
+  {% set stations = pages('_stations') %}
+
+    <header class="border-top border-black px-2 py-1 py-sm-3 my-0 mx-0 container-fluid site-header-ch3 bg-white">
+
+      <!---@TODO add chunt option -->
+
+      <div class="row mx-0 ">
+
+      <p class="mb-0 mt-1 h2"> <!---<a href="{{ base_url }}" class="text-decoration-none text-reset">{{ current_page.title }}</a>--->
+      <!--- add station button -->
+      <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "addStation()">+</button>
+      <button type = "button" class="btn btn-sm btn-outline-primary ml-2 mr-5" onclick = "deleteStation()">-</button>
+                              
+      <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "playAll()">Play</button>
+      <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "pauseAll()">Pause</button>
+
+      <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "clearStations()">Clear</button>
+
+
+      <button type = "button" class="btn btn-sm btn-outline-primary ml-2" onclick = "showRandomStations(n=2)">b2b</button>
+
+        </p>
+      </div>
+
+    </header>
+
+    <div id="page">
+
+
+    <div>
+
+    <section class="page-ch3">
+
+      <div class="row mx-2 row-cols-xl-5 row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 mb-3">
+
+        {% if url_param('onair', 'boolean') or url_param('random', boolean) %}
+          {% set stations = stations | filter(station => station.meta.stream_url[0] is not empty and station.meta.stream_url[0][2] is not empty and station.meta.stream_url[0][2] == "online") %} <!-- filter online stations depending on whether first stream in list is online (should therefore always be main station) -->
+        {% endif %}
+
+        {% set stations_sorted = stations %}
+
+        {% set random_stations = [] %}
+        {% for i in 1..stations | length %}
+            {% set random_stations = random_stations | merge([random(stations | filter(value => value not in random_stations))]) %}
+        {% endfor %}
+        {% set stations = random_stations %}
+
+        {% set snum = 0 %}
+
+          {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
+        
+            {% set snum = snum + 1 %}
+                <div id = "{{ snum }}" class="col themed-grid-col d-none">
+                    <div id="{{ station.id | split('/') | last }}" class="station-card rounded-0 card h-100">
+                        <button type="button" class="btn btn-sm btn-outline-primary ml-2" onclick = "deleteStation('{{ snum }}')">Remove</button>
+                        <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="rounded-0 card-img-top img-fluid d-none d-sm-block" alt="{{ station.meta.title }} logo">
+                        <div class="card-body">
+                        <select class="w-100 mb-2" id="stationselect-ch3" onchange="switchStationCards('{{ station.id | split('/') | last }}', this.value)" s>
+                        <option selected disabled>Select station</option>
+                        {% for station in stations_sorted|filter((s) => s.id | split('/') | last != "chuntoo") %}
+                            <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
+                        {% endfor %}
+                        </select>
+                                <div class="col-md-3 ml-2 col-sm-2 mt-2 mt-md-1 mb-md-2 mb-sm-1">
+                            <audio id="audio-{{ station.id | split('/') | last }}" class="audio-ch3" controls="controls">
+                                <source id="audio-source-{{ station.id | split('/') | last }}" src="" type="audio/mp3" />
+                                Your browser does not support the audio element.
+                            </audio>
+                            </div>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for stream in station.meta.stream_url %}
+                            {% if stream[2] is empty  %}
+                              {% set online_status = '' %}
+                            {% else %}
+                              {% set online_status = stream[2] %}
+                            {% endif%}
+                            <button class="list-group-item fw-bold btn-play" onclick="loadStream('{{ station.meta.title }}', '{{ stream[1] }}', '{{ station.id | split('/') | last }}')"><span title="station appears to be {{ online_status }}" class="dot-air {{ online_status }}"></span></span>Play {{ stream[0] }}</button>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                </div>
+              
+
+            {% endfor %}
+
+      </div>
+    </div>
+  </section> 
+</div>
+
+<footer class="small text-center border-top border-bottom border-black pt-3 pb-3 text-muted bg-white">
+  This is a website under development meant for private use only. Copyrights for the content are held by the respective station owners.<br>
+  All times in local station time.
+</footer>
+
+
+
+<!--- make selector jump to-->
+
+
+
+<script>
+
+  var snum_show = 0;
+
+
+    function getStationNum(stationID){
+        return document.getElementById(stationID).parentNode.id;
+    }
+
+    function switchStationCards(toStation, fromStation) {
+
+
+
+        var toStationNum = getStationNum(toStation)
+        var fromStationNum = getStationNum(fromStation)
+
+
+        // get selecting station
+        var toStation = document.getElementById(toStationNum);
+
+        // save old toStation html
+       var toStationHTML = toStation.innerHTML.toString();
+
+
+        // get selected Station
+        var fromStation = document.getElementById(fromStationNum);
+
+
+
+        // switch innerhtmls of both
+        toStation.innerHTML = fromStation.innerHTML;
+
+        fromStation.innerHTML = toStationHTML;
+
+
+    }
+
+
+    function clearStations() {
+
+        pauseAll();
+        // get all stations that are shown
+        var stationsShown = document.getElementsByClassName('col themed-grid-col d-block');
+
+
+        // hide all stationsShown
+        for (var i = 0; i < stationsShown.length; i++) {
+            stationsShown[i].classList.add('d-none');
+        }
+
+        // hide all stationsShown
+        for (var i = 0; i < stationsShown.length; i++) {
+            stationsShown[i].classList.remove('d-block');
+        }
+
+        
+    }
+
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
+
+  function showRandomStations(n = 0) {
+
+    clearStations();
+
+    // get all stations
+    var stations = document.getElementsByClassName('themed-grid-col');
+
+    // get num random numbers
+    var randomNumbers = [];
+
+
+    for (var i = 0; i < n; i++) {
+      randomNumbers.push(getRandomInt(1, stations.length-1));
+    }
+
+    while (randomNumbers[0] == randomNumbers[1]) {
+      randomNumbers[1] = getRandomInt(1, stations.length-1);
+    }
+
+
+    // show random stations
+    for (var i = 0; i < randomNumbers.length; i++) {
+      let stationNum = randomNumbers[i];
+      document.getElementById(stationNum.toString()).classList.remove('d-none');
+      document.getElementById(stationNum.toString()).classList.add('d-block');
+    }
+  }
+
+  function playAll() {
+    var stations = document.getElementsByClassName('col d-block');
+    for (var i = 0; i < stations.length; i++) {
+      var station = stations[i];
+      // get play button
+      var play = station.getElementsByClassName('btn-play')[0];
+
+      // click play button
+      play.click();
+    }
+  }
+
+  function pauseAll() {
+    // get all playing audio elements
+    var audios = document.getElementsByTagName('audio');
+    for (var i = 0; i < audios.length; i++) {
+      var audio = audios[i];
+      // check if audio is playing
+      if (audio.paused == false) {
+        // click pause button
+        audio.pause();
+      }
+    }
+
+  }
+
+
+  function addStation() {
+
+    snum_show++;
+      
+    var toShow=document.getElementById(snum_show.toString());
+
+    toShow.classList.remove('d-none');
+    toShow.classList.add('d-block');
+
+  }
+
+  function deleteStation(snum) {
+ 
+    if (snum == null) {
+    // get stations that are not hidden
+    var stations = document.getElementsByClassName('col d-block');
+        if (stations.length == 0) {
+        return;
+    }
+
+    var numRemove = stations[stations.length-1].id;
+
+    } else {
+      var numRemove = snum;
+    }
+
+
+    var toRemove=document.getElementById(numRemove.toString());
+
+    toRemove.classList.add('d-none');
+    toRemove.classList.remove('d-block');
+
+    var stationPlayer = toRemove.getElementsByTagName('audio')[0];
+
+    if (!stationPlayer.paused) {
+      stationPlayer.pause();
+    }
+
+    if (snum_show > 1) {
+      snum_show--;
+    }
+
+  }
+
+</script>
+
+
+
+
+  <script>
+
+  const originalTitle = document.getElementsByTagName('title')[0].innerHTML;
+
+  function loadStream(stationName, streamUrl, streamID) {
+      
+      var player=document.getElementById('audio-' + streamID);
+      var source=document.getElementById('audio-source-' + streamID);
+      //var listening=document.getElementById('player-station');
+      //var title=document.getElementsByTagName('title')[0];
+      
+      source.src=streamUrl;
+      
+      player.load(); //just start buffering (preload)
+      player.play(); //start playing
+
+      //listening.innerHTML = '<a title="jump to station in grid/list" class="text-reset text-decoration-none" href="#'+ streamID + '">' + stationName + '</a>';
+      //title.innerHTML = originalTitle + " (" + stationName + ")";
+  }
+
+  </script>
+
+{% if url_param('random', 'boolean') %}
+
+    {% set random_station = random(stations) %}
+    {% set random_station_name =  random_station.meta.title %}
+    {% set random_station_url = random(random_station.meta.stream_url)[1] %}
+
+    <script>
+    loadStream('{{random_station_name}}', '{{random_station_url}}', '{{random_station.id | split('/') | last}}');
+    </script>
+
+{% endif %}
+
+<script src="https://code.iconify.design/2/2.1.1/iconify.min.js"></script>
+
+    
+</body>
+</html>
