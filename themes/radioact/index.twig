@@ -80,7 +80,7 @@
         </div>
 
 
-        <div class="d-flex col col-6 col-md-4 align-items-center">
+        <div class="d-flex col col-6 col-md-5 align-items-center">
           <p class="h4"  id="tagmenu"><span class="my-auto d-none d-md-inline-block">You are now listening to </span><i class="d-inline-block d-md-none bi bi-vinyl"></i> <span id="player-station">(null)</span>.
           <select class="small" id="stationselect" style="max-width:35%;">
               <option selected disabled>Jump to</option>
@@ -93,15 +93,17 @@
 
         </div>
 
-        <div class="col col-6 col-md-4">
+        <div class="col col-6 col-md-3">
         <div class="float-end float-md-end">
-          <button class="btn btn-outline-primary"><a class="text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&random=true") }}'><i class="bi bi-shuffle"></i></a></button>
+          <a title = "Play a random station" class="btn btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&random=true") }}'><i class="fw-bold bi bi-shuffle"></i></a>
           <!--<button class="btn btn-outline-primary"><a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'><i class="bi bi-shuffle"></i><i class="bi bi-grid-3x3"></i></a></button>-->
           {% if url_param('onair', 'boolean') %}
-          <button class="btn btn-outline-primary"><a class="text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=false") }}'><span class="fw-bold">ALL STATIONS</span></a></button>
+          <a title = "Show all stations" class="btn btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=false") }}'><span class="dot-air offline me-0 me-sm-1"></span><span class="">ALL</span></a>
             {% else %}
-          <button class="btn h-100 btn-outline-primary"><a class="text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=true") }}'><span class="fw-bold"><span class="dot-air online me-0 me-sm-1"></span><span class="d-none d-sm-inline-block"> LIVE</span></span></a>{% endif %}<span class="d-none d-sm-inline-block"></button>
-          <button class="d-none d-sm-inline-block btn btn-outline-primary">{% if url_param('display', 'string') == 'list' %}<a class="text-reset text-decoration-none" href="{{ current_page.id|link }}"><i class="bi bi-grid-3x3"></i></a>{%else %}<a class="text-reset text-decoration-none" href="{{ current_page.id|link('display=list') }}"><i class="bi bi-card-text"></i></a>{% endif %}</span></button>
+          <a title = "Show only stations that are live right now" class="btn h-100 btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=true") }}'><span class=""><span class="dot-air online me-0 me-sm-1"></span><span class="d-none d-sm-inline-block"> LIVE</span></span></a>{% endif %}
+          <span class="d-none d-sm-inline-block">
+          <a class="d-none d-md-inline-block btn btn-outline-primary text-reset text-decoration-none" {% if url_param('display', 'string') == 'list' %} title = "View as grid" href="{{ current_page.id|link }}"><i class="bi bi-grid-3x3"></i>{%else %} title = "View as list" href="{{ current_page.id|link('display=list') }}"><i class="bi bi-card-text"></i>{% endif %}</a>
+          </span>
         </div>
         </div>
 
