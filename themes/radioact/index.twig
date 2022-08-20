@@ -186,7 +186,7 @@
         {% else %}
 
           {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
-        
+
                 <div class="col themed-grid-col">
                     <div id="{{ station.id | split('/') | last }}" class="station-card rounded-0 card h-100">
                         <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="rounded-0 card-img-top img-fluid d-none d-sm-block" alt="{{ station.meta.title }} logo">
@@ -204,8 +204,8 @@
                             </div>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><a href="{{station.meta.url}}" target="_blank">Website</a></li>
-                            <li class="list-group-item"><a href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " class="link-danger{% endif %}">{% if station.meta.support is empty %}Submit a support link{% else %}Support the station</a>{% endif %}</a></li>
+                            <li class="list-group-item"><a class="text-decoration-none" href="{{station.meta.url}}" target="_blank">Website</a></li>
+                            <li class="list-group-item"><a href="{% if station.meta.support is not empty %}{{station.meta.support}}" class = "text-decoration-none" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " class="text-decoration-none link-danger{% endif %}">{% if station.meta.support is empty %}Submit a support link{% else %}Support the station</a>{% endif %}</a></li>
                             {% for stream in station.meta.stream_url %}
                             {% if stream[2] is empty  %}
                               {% set online_status = '' %}
