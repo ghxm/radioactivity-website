@@ -300,6 +300,8 @@ function loadChat() {
       var source=document.getElementById('audio-source');
       var listening=document.getElementById('player-station');
       var title=document.getElementsByTagName('title')[0];
+
+      player.title=stationName;
       
       source.src=streamUrl;
       
