@@ -1,3 +1,6 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+
+
 /* COLORS */
 
 :root {
@@ -66,13 +69,15 @@
     margin-bottom:0.8rem;
 }
 
-
+/*
 #tagmenu {
     font-size: calc((0.8em + 0.4vw)) !important;
 }
+*/
 
 #audio-player {
-    width: calc(14em + 5vw);
+    min-width: 70% !important;
+    max-width: 95% !important;
     height: 2.8em;
 }
 

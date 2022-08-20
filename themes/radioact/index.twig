@@ -27,6 +27,10 @@
     <meta name="msapplication-config" content="assets/favicon/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+
+
 
     <!-- Bootstrap core CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -68,27 +72,37 @@
 
       <div class="row my-0 mx-0">
 
-        <div class="col-md-3 ml-2 col-sm-2 mt-2 mt-md-1 mb-md-2 mb-sm-1">
+        <div class="col col-12 col-md-4 ml-2 mt-2 mt-md-1 mb-md-2 mb-sm-1">
             <audio id="audio-player" controls="controls">
               <source id="audio-source" src="" type="audio/mp3" />
               Your browser does not support the audio element.
             </audio>
         </div>
 
-        <div class="d-none d-sm-block col-1 mx-0"></div>
 
-        <div class="d-flex col-md-6 align-items-center">
-          <p class="h5" id="tagmenu">You are now listening to <span id="player-station">(null)</span>. <a href='{{ current_page.id|link("#{url_params}&random=true") }}'>Play a random station</a> or <a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'>shuffle grid</a> or<wbr> {% if url_param('onair', 'boolean') %}
-            <a class="" href='{{ current_page.id|link("#{url_params}&onair=false") }}'>show all stations</a>
-            {% else %}
-            <a class="" href='{{ current_page.id|link("#{url_params}&onair=true") }}''>show only stations that are live right now</a>{% endif %}<span class="d-none d-sm-inline-block">. View {% if url_param('display', 'string') == 'list' %}<a href="{{ current_page.id|link }}">as grid</a>{%else %}<a href="{{ current_page.id|link('display=list') }}">as list</a>{% endif %}</span><span class = "d-none" id="selectorspan""> or <select class="small" id="stationselect" style="max-width:28%;">
-              <option selected disabled>jump to</option>
+        <div class="d-flex col col-6 col-md-4 align-items-center">
+          <p class="h3 h4-sm"  id="tagmenu"><span class="my-auto d-none d-sm-inline-block">You are now listening to </span><i class="d-inline-block d-sm-none bi bi-vinyl"></i> <span id="player-station">(null)</span>.
+          <select class="small" id="stationselect" style="max-width:35%;">
+              <option selected disabled>Jump to</option>
               {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
                 <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
               {% endfor %}
-            </select> </span>.</p>
+            </select> .
+          </p>
+
+
         </div>
 
+        <div class="col col-6 col-md-4">
+        <div class="float-end float-md-end">
+          <button class="btn btn-outline-primary"><a class="text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&random=true") }}'><i class="bi bi-shuffle"></i></a></button>
+          <!--<button class="btn btn-outline-primary"><a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'><i class="bi bi-shuffle"></i><i class="bi bi-grid-3x3"></i></a></button>-->
+          {% if url_param('onair', 'boolean') %}
+          <button class="btn btn-outline-primary"><a class="text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=false") }}'><span class="fw-bold">ALL STATIONS</span></a></button>
+            {% else %}
+          <button class="btn h-100 btn-outline-primary"><a class="text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=true") }}'><span class="fw-bold"><span class="dot-air online me-0 me-sm-1"></span><span class="d-none d-sm-inline-block"> LIVE</span></span></a>{% endif %}<span class="d-none d-sm-inline-block"></button>
+          <button class="d-none d-sm-inline-block btn btn-outline-primary">{% if url_param('display', 'string') == 'list' %}<a class="text-reset text-decoration-none" href="{{ current_page.id|link }}"><i class="bi bi-grid-3x3"></i></a>{%else %}<a class="text-reset text-decoration-none" href="{{ current_page.id|link('display=list') }}"><i class="bi bi-card-text"></i></a>{% endif %}</span></button>
+        </div>
         </div>
 
       </div>
