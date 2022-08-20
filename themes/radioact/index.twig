@@ -80,9 +80,9 @@
         </div>
 
 
-        <div class="d-flex col col-6 col-md-5 align-items-center">
+        <div class="d-flex col col-8 col-md-5 align-items-center">
           <p class="h4"  id="tagmenu"><span class="my-auto d-none d-md-inline-block">You are now listening to </span><i class="d-inline-block d-md-none bi bi-vinyl"></i> <span id="player-station">(null)</span>.
-          <select class="small" id="stationselect" style="max-width:35%;">
+          <select class="small" id="stationselect" style="max-width:50%;">
               <option selected disabled>Jump to</option>
               {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
                 <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
@@ -93,7 +93,7 @@
 
         </div>
 
-        <div class="col col-6 col-md-3">
+        <div class="col col-4 col-md-3">
         <div class="float-end float-md-end">
           <a title = "Play a random station" class="btn btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&random=true") }}'><i class="fw-bold bi bi-shuffle"></i></a>
           <!--<button class="btn btn-outline-primary"><a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'><i class="bi bi-shuffle"></i><i class="bi bi-grid-3x3"></i></a></button>-->
