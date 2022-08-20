@@ -94,7 +94,7 @@
         <div class="w-auto d-inline-block me-1">
          <select id="stationselect" class="btn btn-outline-primary form-select w-100" >
             <optgroup>
-              <option selected disabled>Select</option>
+              <option class="d-none d-md-block" selected disabled>Select</option>
               {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
                 <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
               {% endfor %}
@@ -167,7 +167,7 @@
           <tbody>
           {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
 
-            <tr class = "station-row" id="{{ station.id | split('/') | last }}"">
+            <tr class = "station-row" id="{{ station.id | split('/') | last }}">
               <th scope="row">{{ station.title }}</th>
               <td>{{ station.meta.location }}</td>
               <td>{{ station.meta.play_time }}</td>
@@ -284,6 +284,9 @@ function loadChat() {
 
   document.getElementById('stationselect').onchange= function() {
     window.location.hash=this.value;
+
+    var selected = document.getElementById('stationselect').options.selectedIndex;
+
   };
 </script>
 
