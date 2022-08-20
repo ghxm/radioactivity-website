@@ -76,8 +76,8 @@
 */
 
 #audio-player {
-    min-width: 70% !important;
-    max-width: 95% !important;
+/*    min-width: 70% !important;*/
+    max-width: 100% !important;
     height: 2.8em;
 }
 
