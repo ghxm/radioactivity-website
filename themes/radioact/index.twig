@@ -74,34 +74,43 @@
       <div class="row my-0 mx-0">
 
         <div class="col col-12 col-md-4 ml-2 mt-2 mt-md-1 mb-md-2 mb-sm-1">
-            <audio class = "w-100 pe-sm-5" id="audio-player" controls="controls">
+            <audio class = "w-100 pe-sm-5 mb-1 mb-sm-0" id="audio-player" controls="controls">
               <source id="audio-source" src="" type="audio/mp3" />
               Your browser does not support the audio element.
             </audio>
         </div>
 
 
-        <div class="d-flex col col-7 col-md-5 align-items-center">
-          <p class="h4"  id="tagmenu"><span class="my-auto d-none d-md-inline-block">You are now listening to </span><i class="d-inline-block d-md-none bi bi-vinyl"></i> <span id="player-station">(null)</span>.
-          <select class="small" id="stationselect" style="max-width:50%;">
-              <option selected disabled>Jump to</option>
-              {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
-                <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
-              {% endfor %}
-            </select> .
+        <div class="d-flex col col-7 col-md-4 align-items-center">
+          <p class="h4"  id="tagmenu"><span class="my-auto d-none d-md-inline-block">You are now listening to </span><i class="d-inline-block d-md-none bi bi-vinyl"></i> <span class ="small" id="player-station">(null)</span>.
+
           </p>
 
 
         </div>
 
-        <div class="col col-5 col-md-3">
-        <div class="float-end float-md-end">
+        <div class="col col-5 col-md-4">
+        <div class="float-end float-md-end d-flex flex-nowrap">
+        <div class="w-auto d-inline-block me-1">
+         <select id="stationselect" class="btn btn-outline-primary form-select w-100" >
+            <optgroup>
+              <option selected disabled>Select</option>
+              {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
+                <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
+              {% endfor %}
+            </optgroup>
+         </select> 
+        </div>
+        <span class="d-block d-inline-block me-1">
           <a title = "Play a random station" class="btn btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&random=true") }}'><i class="fw-bold bi bi-shuffle"></i></a>
           <!--<button class="btn btn-outline-primary"><a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'><i class="bi bi-shuffle"></i><i class="bi bi-grid-3x3"></i></a></button>-->
+          </span>
+          <span class="d-block d-inline-block me-md-1">
           {% if url_param('onair', 'boolean') %}
-          <a title = "Show all stations" class="btn btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=false") }}'><span class="dot-air offline me-0 me-sm-1"></span><span class="d-none d-sm-inline-block">ALL</span></a>
+          <a title = "Show all stations" class="btn btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=false") }}'><span class="dot-air offline me-0 me-sm-1"></span><span class="d-none d-xl-inline-block">ALL</span></a>
             {% else %}
-          <a title = "Show only stations that are live right now" class="btn h-100 btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=true") }}'><span class=""><span class="dot-air online me-0 me-sm-1"></span><span class="d-none d-sm-inline-block"> LIVE</span></span></a>{% endif %}
+          <a title = "Show only stations that are live right now" class="btn btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&onair=true") }}'><span class=""><span class="dot-air online me-0 me-sm-1"></span><span class="d-none d-xl-inline-block">LIVE</span></span></a>{% endif %}
+          </span>
           <span class="d-none d-sm-inline-block">
           <a class="d-none d-md-inline-block btn btn-outline-primary text-reset text-decoration-none" {% if url_param('display', 'string') == 'list' %} title = "View as grid" href="{{ current_page.id|link }}"><i class="bi bi-grid-3x3"></i>{%else %} title = "View as list" href="{{ current_page.id|link('display=list') }}"><i class="bi bi-card-text"></i>{% endif %}</a>
           </span>
