@@ -185,7 +185,9 @@
                 <noscript>enable <code>js</code></noscript>{% endfor %}</td>
               <td><a href="{{ station.meta.url }}">{{ station.meta.url|replace({'https://': '', 'http://': '', 'www.': '', '/': ''}) }}/</a></td>
               <td><a class="btn btn-link py-0  fw-900" href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: "
-              class="link-danger{% endif %}">{% if station.meta.support is not empty %}<span class="iconify" data-icon="clarity:cursor-hand-grab-line"></span><noscript>submit support link</noscript>{% else %}<span class="iconify" data-icon="fluent:mail-24-regular"></span><noscript>support</noscript>{% endif %}</a></td>
+              class="link-danger{% endif %}">
+                <a href="{% if station.meta.support is not empty %}{{station.meta.support}}" title="Support the station" class = "text-decoration-none" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " title="Submit a station support link via e-mail" class="text-decoration-none link-danger{% endif %}">{% if station.meta.support is empty %}<i class="bi bi-life-preserver"></i>{% else %}<i class="bi bi-life-preserver"></i></a>{% endif %}</a>
+              </td>
             </tr>
           {% endfor %}
 
@@ -200,12 +202,17 @@
                     <div id="{{ station.id | split('/') | last }}" class="station-card rounded-0 card h-100">
                         <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="rounded-0 card-img-top img-fluid d-none d-sm-block" alt="{{ station.meta.title }} logo">
                         <div class="card-body">
-                            <h5 class="card-title">{{ station.title }}{% if station.meta.recommended is defined %} {% for rec in station.meta.recommended %}<h6><span class="position-absolute top-0 start-50 translate-middle badge bg-dark">{{ rec }}</span></h6>{% endfor %}{% endif %}</h5>
+                            <h5 class="card-title">{{ station.title }} 
+                            {% if station.meta.recommended is defined %} {% for rec in station.meta.recommended %}<h6><span class="position-absolute top-0 start-50 translate-middle badge bg-dark">{{ rec }}</span></h6>{% endfor %}{% endif %}</h5>
                             <h6 class="card-subtitle mb-2 text-muted"><span alt="location">{{ station.meta.location }}</span></h6>
                             <h6 class="card-subtitle mb-2 text-muted"><span alt="hours">{{ station.meta.play_time }}</span></h6>
+                            <h6 class="card-subtitle mb-2"><span alt="hours"><a class="text-decoration-none" href="{{station.meta.url}}" target="_blank"><i class="bi bi-globe2"></i></a>
+                            <a href="{% if station.meta.support is not empty %}{{station.meta.support}}" title="Support the station" class = "text-decoration-none" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " title="Submit a station support link via e-mail" class="text-decoration-none link-danger{% endif %}">{% if station.meta.support is empty %}<i class="bi bi-life-preserver"></i>{% else %}<i class="bi bi-life-preserver"></i></a>{% endif %}</a>
+                            </span></h6>
                             <div class="d-md-none">
                               <details>
-                                <p class="card-text station-description">{{ station.meta.description }}</p>
+                                <p class="card-text station-description">
+                                {{ station.meta.description }}</p>
                               </details>
                             </div>
                             <div class="d-none d-md-block">
@@ -213,8 +220,6 @@
                             </div>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><a class="text-decoration-none" href="{{station.meta.url}}" target="_blank">Website</a></li>
-                            <li class="list-group-item"><a href="{% if station.meta.support is not empty %}{{station.meta.support}}" class = "text-decoration-none" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " class="text-decoration-none link-danger{% endif %}">{% if station.meta.support is empty %}Submit a support link{% else %}Support the station</a>{% endif %}</a></li>
                             {% for stream in station.meta.stream_url %}
                             {% if stream[2] is empty  %}
                               {% set online_status = '' %}
