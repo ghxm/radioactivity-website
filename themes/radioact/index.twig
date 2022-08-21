@@ -94,7 +94,8 @@
         <div class="w-auto d-inline-block me-1">
          <select id="stationselect" class="btn btn-outline-primary form-select w-100" >
             <optgroup>
-              <option class="d-none d-md-block" selected disabled>Select</option>
+              <option class="" selected disabled>Select</option>
+               <option class="" selected disabled></option>
               {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
                 <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
               {% endfor %}
@@ -102,7 +103,7 @@
          </select> 
         </div>
         <span class="d-block d-inline-block me-1">
-          <a title = "Play a random station" class="btn btn-outline-primary text-reset text-decoration-none" href='{{ current_page.id|link("#{url_params}&random=true") }}'><i class="fw-bold bi bi-shuffle"></i></a>
+          <a title = "Play a random station" class="btn btn-outline-primary text-reset text-decoration-none ps-2 ps-md-3 pe-2 pe-md-3" href='{{ current_page.id|link("#{url_params}&random=true") }}'><i class="fw-bold bi bi-shuffle"></i></a>
           <!--<button class="btn btn-outline-primary"><a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'><i class="bi bi-shuffle"></i><i class="bi bi-grid-3x3"></i></a></button>-->
           </span>
           <span class="d-block d-inline-block me-md-1">
