@@ -73,7 +73,7 @@
 
       <div class="row my-0">
 
-        <div id='stream' class="col col-12 col-md-2 ml-2 mt-md-1 px-4 mt-3 mb-3">
+        <div id='stream' class="col col-12 col-md-2 ml-2 mt-md-1 px-4 mt-3 mb-2">
             <audio class = "w-100 pe-sm-5 mb-1 mb-sm-0" id="audio-player" controls="controls">
               <source id="audio-source" src="" type="audio/mp3" />
               Your browser does not support the audio element.
@@ -81,12 +81,10 @@
         </div>
 
 
-        <div class="px-4 px-md-3 col col-7 mt-md-1 col-md-4 align-items-center">
-          <button class = 'd-block-inline btn btn-outline-dark btn-sm btn-md-md'>
-          <i class="bi bi-vinyl blink"></i> <span class ="small" id="player-station">(null)</span>
+        <div class="px-4 px-md-5 px-lg-3 ml-0 ml-xs-3 col col-7 mt-md-1 col-md-4 align-items-center">
+          <button class = 'd-block-inline btn btn-outline-dark'>
+          <i class="bi bi-vinyl blink"></i> <span class = "small" id="player-station">(null)</span>
           </button>
-
-
         </div>
 
         <div class="col col-5 col-md-6 pe-4">
@@ -300,18 +298,18 @@ function loadChat() {
     audio.classList.add("d-none");
 
     // add play button to stream div
-    streamDiv.innerHTML += `<div class="btn-group btn-group-sm  w-100" role="group">
-    <button class="btn btn-lg btn-outline-dark fw-bold" id="btn-play" onclick="playPause()">
+    streamDiv.innerHTML += `<div class="btn-group w-100" role="group">
+    <button class="btn btn-outline-dark fw-bold" id="btn-play" onclick="playPause()">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
             <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
         </svg>
     </button>
-    <button class="btn btn-lg btn-outline-dark fw-bold" id="btn-vol-down" onclick="volumeDown(0.1)">
+    <button class="btn btn-outline-dark fw-bold" id="btn-vol-down" onclick="volumeDown(0.1)">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-volume-down-fill" viewBox="0 0 16 16">
         <path d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12V4zm3.025 4a4.486 4.486 0 0 1-1.318 3.182L10 10.475A3.489 3.489 0 0 0 11.025 8 3.49 3.49 0 0 0 10 5.525l.707-.707A4.486 4.486 0 0 1 12.025 8z"/>
     </svg>
     </button>
-    <button class="btn btn-lg btn-outline-dark fw-bold" id="btn-vol-up" onclick="volumeUp(0.1)">
+    <button class="btn btn-outline-dark fw-bold" id="btn-vol-up" onclick="volumeUp(0.1)">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16">
             <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
             <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
