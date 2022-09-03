@@ -138,3 +138,13 @@ optgroup {
     text-align-last:center;
     text-align: center;
 }
+
+.blink {
+    animation: blinker 2s linear infinite;
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
