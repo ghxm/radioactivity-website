@@ -326,7 +326,19 @@ function loadChat() {
     // play stream on button click
     function playPause() {
 
+      var btnVolUp = document.getElementById("btn-vol-up");
+      var btnVolDown = document.getElementById("btn-vol-down");
+
       var audio = streamDiv.getElementsByTagName("audio")[0];
+
+      if (audio.volume<0.1){
+            btnVolDown.disabled = true;
+        } else if (audio.volume>0.9){
+            btnVolUp.disabled = true;
+        } else {
+            btnVolUp.disabled = false;
+            btnVolDown.disabled = false;
+        }
 
 
         document.getElementById("btn-play").disabled = false;
