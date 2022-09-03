@@ -354,15 +354,40 @@ function loadChat() {
     }
 
     function volumeDown(val=0.1) {
-            var audio = streamDiv.getElementsByTagName("audio")[0];
+
+        // vol down button
+        var btnUp = document.getElementById("btn-vol-up");
+        var btnDown = document.getElementById("btn-vol-down");
+        var audio = streamDiv.getElementsByTagName("audio")[0];
 
         audio.volume -= val;
+
+        console.log(audio.volume);
+
+        if (audio.volume < 0.1) {
+            btnDown.disabled = true;
+            btnUp.disabled = false;
+        } else {
+            btnUp.disabled = false;
+        }
+
     }
 
     function volumeUp(val=0.1) {
-            var audio = streamDiv.getElementsByTagName("audio")[0];
 
+        // vol down button
+        var btnUp = document.getElementById("btn-vol-up");
+        var btnDown = document.getElementById("btn-vol-down");
+        var audio = streamDiv.getElementsByTagName("audio")[0];
+        
         audio.volume += val;
+
+        if (audio.volume >= 0.9) {
+            btnUp.disabled = true;
+            btnDown.disabled = false;
+        } else {
+            btnDown.disabled = false;
+        }
     }
 
 
