@@ -6,7 +6,7 @@ stream_url:
 description: "A non-profit & volunteer-run online radio station."
 url: "https://n10.as/"
 support: ""
-location: Montreal, Canada
+location: Montreal, CA
 play_time: 24/7
 recommended: 
 ---
