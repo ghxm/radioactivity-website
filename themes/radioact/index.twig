@@ -353,6 +353,9 @@ function loadChat() {
 
     });
 
+
+    navigator.mediaSession.setActionHandler('play', playPause);
+
   
 
 
@@ -429,6 +432,22 @@ function loadChat() {
 
   const originalTitle = document.getElementsByTagName('title')[0].innerHTML;
 
+
+  function updateMediaSession(stationName = '', streamID = 'Live') {
+
+        if ("mediaSession" in navigator) {
+            console.log("Media Session API supported!");
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: streamID,
+                artist: stationName,
+                album: "Radio",
+                artwork: [
+                { src: '',   sizes: '526x626',   type: 'image/jpg' },
+                ]
+            });
+        }
+  }
+
   function loadStream(stationName, streamUrl, streamID){
       
       var player=document.getElementById('audio-player');
@@ -442,6 +461,8 @@ function loadChat() {
       
       listening.innerHTML = '<a title="jump to station in grid/list" class="text-reset text-decoration-none" href="#'+ streamID + '">' + stationName + '</a>';
       title.innerHTML = originalTitle + " (" + stationName + ")";
+
+      updateMediaSession(stationName);
 
       player.load();
       playPause();
