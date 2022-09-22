@@ -385,9 +385,21 @@ function loadChat() {
             audio.load();
             audio.play();
 
+              try {
+                  navigator.mediaSession.playbackState = 'playing';
+              } catch (error) {
+                
+              }
+
 
         } else {
             audio.pause()
+
+              try {
+                  navigator.mediaSession.playbackState = 'paused';
+              } catch (error) {
+                
+              }
 
         }
     }
