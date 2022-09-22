@@ -316,6 +316,9 @@ function loadChat() {
 
     window.audio.classList.add("d-none");
 
+    window.audio.onclick = playPause();
+
+
 
     // if src empty, disable play button
     if (window.audio.src == "") {
