@@ -276,9 +276,6 @@ function loadChat() {
 
 <!--- make selector jump to-->
 <script>
-
-
-
   // jump on slection change
 
   document.getElementById('stationselect').onchange= function() {
@@ -293,9 +290,6 @@ function loadChat() {
     <script>
     // hide audio element in stream div
     var streamDiv = document.getElementById("stream");
-    var audio = streamDiv.getElementsByTagName("audio")[0];
-
-    audio.classList.add("d-none");
 
     // add play button to stream div
     streamDiv.innerHTML += `<div class="btn-group w-100" role="group">
@@ -318,10 +312,40 @@ function loadChat() {
     </button>
     </div>`;
 
+    window.audio = streamDiv.getElementsByTagName("audio")[0];
+
+    window.audio.classList.add("d-none");
+
+
     // if src empty, disable play button
-    if (audio.src == "") {
+    if (window.audio.src == "") {
         document.getElementById("btn-play").disabled = true;
     }
+
+
+    window.playBtn = document.getElementById("btn-play");
+
+    var showPlayButton = function () {
+      // replace button icon with play
+      window.playBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+  <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+  </svg>`;
+};
+
+
+    window.audio.addEventListener('pause', showPlayButton);
+    window.audio.addEventListener('error', showPlayButton);
+
+    window.audio.addEventListener('play', (event) => {
+  
+                    // replace  button icon with pause
+            window.playBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-stop-fill" viewBox="0 0 16 16">
+              <path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/>
+            </svg>`;
+
+
+    });
+
 
     // play stream on button click
     function playPause() {
@@ -329,7 +353,7 @@ function loadChat() {
       var btnVolUp = document.getElementById("btn-vol-up");
       var btnVolDown = document.getElementById("btn-vol-down");
 
-      var audio = streamDiv.getElementsByTagName("audio")[0];
+      var audio = window.audio
 
       if (audio.volume<0.1){
             btnVolDown.disabled = true;
@@ -343,7 +367,6 @@ function loadChat() {
 
         document.getElementById("btn-play").disabled = false;
 
-        var btn = document.getElementById("btn-play");
 
         if(audio.paused) {
           
@@ -351,17 +374,9 @@ function loadChat() {
             audio.play();
 
 
-            // replace  button icon with stop
-            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stop-fill" viewBox="0 0 16 16">
-              <path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/>
-            </svg>`;
-
         } else {
             audio.pause()
-            // replace button icon with play
-            btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-  <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-</svg>`;
+
         }
     }
 
@@ -370,7 +385,7 @@ function loadChat() {
         // vol down button
         var btnUp = document.getElementById("btn-vol-up");
         var btnDown = document.getElementById("btn-vol-down");
-        var audio = streamDiv.getElementsByTagName("audio")[0];
+        var audio = window.audio;
 
         audio.volume -= val;
 
@@ -390,7 +405,7 @@ function loadChat() {
         // vol down button
         var btnUp = document.getElementById("btn-vol-up");
         var btnDown = document.getElementById("btn-vol-down");
-        var audio = streamDiv.getElementsByTagName("audio")[0];
+        var audio = window.audio;
         
         audio.volume += val;
 
@@ -424,6 +439,20 @@ function loadChat() {
   }
 
   </script>
+
+      <script>
+
+    // remove focus from all buttons
+    document.querySelectorAll('button').forEach(function(button) {
+        button.setAttribute('onfocus', 'this.blur()');
+    });
+
+    // the same for all links posing as buttons
+    document.querySelectorAll('a.btn').forEach(function(button) {
+        button.setAttribute('onfocus', 'this.blur()');
+    });
+
+    </script>
 
 {% if url_param('random', 'boolean') %}
 
