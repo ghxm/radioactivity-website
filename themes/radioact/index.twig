@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="{{ theme_url }}/css/grid.css" type="text/css" />
     <link rel="stylesheet" href="{{ theme_url }}/css/radioact.css" type="text/css" />
 
+
 {% block include_header_end %}
 
 {% endblock %}
@@ -356,7 +357,8 @@ function loadChat() {
 
     navigator.mediaSession.setActionHandler('play', playPause);
 
-  
+    navigator.mediaSession.setActionHandler('pause', playPause);
+
 
 
     // play stream on button click
