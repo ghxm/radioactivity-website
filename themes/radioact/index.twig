@@ -447,12 +447,12 @@ function loadChat() {
   const originalTitle = document.getElementsByTagName('title')[0].innerHTML;
 
 
-  function updateMediaSession(stationName = '', streamID = 'Live') {
+  function updateMediaSession(stationName = '', stationID = 'Live') {
 
         if ("mediaSession" in navigator) {
             console.log("Media Session API supported!");
             navigator.mediaSession.metadata = new MediaMetadata({
-                title: streamID,
+                title: 'Live',
                 artist: stationName,
                 album: "Radio",
                 artwork: [
@@ -462,7 +462,7 @@ function loadChat() {
         }
   }
 
-  function loadStream(stationName, streamUrl, streamID){
+  function loadStream(stationName, streamUrl, stationID){
       
       var player=document.getElementById('audio-player');
       var source=document.getElementById('audio-source');
@@ -473,10 +473,10 @@ function loadChat() {
       
       source.src=streamUrl;
       
-      listening.innerHTML = '<a title="jump to station in grid/list" class="text-reset text-decoration-none" href="#'+ streamID + '">' + stationName + '</a>';
+      listening.innerHTML = '<a title="jump to station in grid/list" class="text-reset text-decoration-none" href="#'+ stationID + '">' + stationName + '</a>';
       title.innerHTML = originalTitle + " (" + stationName + ")";
 
-      updateMediaSession(stationName);
+      updateMediaSession(stationName=stationName, stationID=stationID);
 
       player.load();
       playPause();
