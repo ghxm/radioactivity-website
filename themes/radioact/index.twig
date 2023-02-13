@@ -64,7 +64,7 @@
 
       <!---@TODO add chunt option -->
 
-      <div class="row mx-0 ">
+      <div class="row mx-0">
 
       <h2 class="text-center text-sm-start mb-0 mt-1">
       <a href="{{ base_url }}" class="text-decoration-none text-reset">{{ current_page.title }}</a> <a title="suggest a station (via e-mail)" href="mailto:{{ config.contact }}" style="text-decoration: none;">+<sup><span class="fs-6">@</span></sup></a></h2>
@@ -82,13 +82,15 @@
         </div>
 
 
-        <div class="ps-4 pe-1 px-md-5 px-lg-3 ml-0 ml-xs-3 col col-7 mt-md-1 col-md-4 align-items-center">
-          <button class = 'd-inline-block btn btn-outline-dark text-truncate'>
-          <i class="bi bi-vinyl blink d-none d-sm-inline-block"></i> <span class = "small" id="player-station">(null)</span>
-          </button>
+        <div class="ps-4 pe-1 px-md-5 px-lg-3 ml-0 ml-xs-3 col col-7 col-md-4 align-items-center mt-md-1 px-4 mt-0 mb-2 mb-sm-2">
+          <div id="now-playing" class="btn-group w-100">
+            <button class = 'd-inline-block btn btn-outline-dark text-truncate'>
+            <i class="bi bi-vinyl blink d-none d-sm-inline-block"></i> <span class = "small" id="player-station">(null)</span>
+            </button>
+          </div>
         </div>
 
-        <div class="col col-5 col-md-6 pe-4">
+        <div class="col col-5 col-md-6 pe-4 mt-md-1 px-4 mt-0 mb-2 mb-sm-2">
         <div class="float-end float-md-end d-flex flex-nowrap">
         <div class="w-auto d-inline-block me-1">
          <select id="stationselect" class="btn btn-outline-primary form-select w-100" >
@@ -101,7 +103,7 @@
             </optgroup>
          </select> 
         </div>
-        <span class="d-block d-inline-block me-1">
+        <span class="d-block d-inline-block me-1 btn-group">
           <a title = "Play a random station" class="btn btn-outline-primary text-reset text-decoration-none ps-2 ps-md-3 pe-2 pe-md-3" href='{{ current_page.id|link("#{url_params}&random=true") }}'><i class="fw-bold bi bi-shuffle"></i></a>
           <!--<button class="btn btn-outline-primary"><a onclick="" href='{{ current_page.id|link("#{url_params}&shuffle=true") }}'><i class="bi bi-shuffle"></i><i class="bi bi-grid-3x3"></i></a></button>-->
           </span>
@@ -118,7 +120,10 @@
         </div>
 
       </div>
+
+
     </header>
+
 
     <div id="page">
 
@@ -132,6 +137,35 @@
     <div>
 
     <section class="page">
+
+      <div id="shazam-row" class="row mx-2 row-cols-1 mb-3">
+
+      <div class="col themed-grid-col">
+
+        <div id="shazam-loading" class="h-100 d-none">
+          <p class="text-center fw-bold">
+          Detecting Track ID...
+          </p>
+          </div>
+
+          <div id="shazam-info" class="h-100 d-n">
+          <p class="">
+
+            <h6 class="text-center">Current</h6>
+            <ul>
+            <li class="fw-italic list-unstyled"><span id="shazam-id-current"></span></li>
+            </ul>
+
+            <h6 class="text-center">Previously on this channel</h6>
+            <ul>
+            <li class="fw-italic  list-unstyled"><span id="shazam-id-history"></span></li>
+            </ul>
+          </p>
+        </div>
+
+        </div>
+
+      </div>
 
       <div class="row mx-2 row-cols-xl-5 row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 mb-3">
 
@@ -484,7 +518,52 @@ function loadChat() {
 
   </script>
 
-      <script>
+  <script>
+
+  var nowPlayingBtns = getElementById('now-playing')
+
+  // add shazam button to now playing
+  var shazamBtn = document.createElement('button');
+
+  shazamBtn.setAttribute('class', 'd-inline-block btn btn-outline-dark text-truncate');
+
+  shazamBtn.innerHTML = `<i class="bi bi-shazam"></i> <span class = "small">Shazam</span>`;
+
+  var CurrentStreamUrl = document.getElementById('audio-source').src;
+
+  var CurrentStreamName = document.getElementById('player-station').innerText;
+
+  shazamBtn.setAttribute('onclick', 'shazamUrl(+"' CurrentStreamUrl + '")');
+
+  function shazamUrl (url) {
+
+
+    
+    // make a post request to shazam api
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "api.radioactivity.directory/shazam/detect", true);
+    http.send(JSON.stringify({
+        url: url,
+        history: 5,
+        requester: "radioactivity.directory"
+    }))
+
+    http.onload = function() {
+        
+  }
+
+ function openShazamBox() {
+    var shazamBox = document.getElementById('shazam-box');
+    shazamBox.classList.remove('d-none');
+
+    
+  
+  }
+  
+
+  </script>
+
+  <script>
 
     // remove focus from all buttons
     document.querySelectorAll('button').forEach(function(button) {
