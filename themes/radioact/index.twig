@@ -410,9 +410,15 @@ function loadChat() {
     });
 
 
-    navigator.mediaSession.setActionHandler('play', playPause);
+    if ('mediaSession' in navigator) {
 
-    navigator.mediaSession.setActionHandler('pause', playPause);
+
+      navigator.mediaSession.setActionHandler('play', playPause);
+
+      navigator.mediaSession.setActionHandler('pause', playPause);
+
+  
+    }
 
 
 
@@ -514,6 +520,8 @@ function loadChat() {
                 { src: '',   sizes: '526x626',   type: 'image/jpg' },
                 ]
             });
+        } else {
+            console.log("Media Session API not supported.");
         }
   }
 
@@ -531,12 +539,14 @@ function loadChat() {
       listening.innerHTML = '<a title="jump to station in grid/list" class="text-reset text-decoration-none" href="#'+ stationID + '">' + stationName + '</a>';
       title.innerHTML = originalTitle + " (" + stationName + ")";
 
-      updateMediaSession(stationName=stationName, stationID=stationID);
-
       activateShazamButton();
 
       player.load();
       playPause();
+
+      updateMediaSession(stationName=stationName, stationID=stationID);
+
+
   }
 
   </script>
