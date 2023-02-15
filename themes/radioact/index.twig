@@ -566,8 +566,8 @@ function loadChat() {
     document.getElementById('shazam-button').removeAttribute('disabled');
   }
 
-  // when audio is playing, activate shazam button
-  window.audio.addEventListener('load', activateShazamButton);
+  // when source changes, activate shazam button
+  document.getElementById('audio-source').addEventListener('change', activateShazamButton);
 
 
   function parseShazapiResponse (resp) {
