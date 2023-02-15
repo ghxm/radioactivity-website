@@ -567,7 +567,7 @@ function loadChat() {
   }
 
   // when audio is playing, activate shazam button
-  window.audio.addEventListener('play', activateShazamButton);
+  window.audio.addEventListener('load', activateShazamButton);
 
 
   function parseShazapiResponse (resp) {
