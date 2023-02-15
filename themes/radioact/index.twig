@@ -138,29 +138,50 @@
 
     <section class="page">
 
-      <div id="shazam-row" class="row mx-2 row-cols-1 mb-3">
+      <div id="shazam-row" class="row mx-2 row-cols-1 mb-3 d-none">
 
       <div class="col themed-grid-col">
 
+
+      <div class="station-card rounded-0 card p-4">
+
+                  <button class="btn float-left btn-outline-dark mb-4 " onclick="closeShazamBox()">Close</button>
+
+
         <div id="shazam-loading" class="h-100 d-none">
-          <p class="text-center fw-bold">
+          <p class="text-center fw-bold fst-italic">
           Detecting Track ID...
           </p>
           </div>
 
-          <div id="shazam-info" class="h-100 d-n">
-          <p class="">
+          <div id="shazam-info" class="h-100  d-none">
 
-            <h6 class="text-center">Current</h6>
-            <ul>
-            <li class="fw-italic list-unstyled"><span id="shazam-id-current"></span></li>
-            </ul>
 
-            <h6 class="text-center">Previously on this channel</h6>
-            <ul>
-            <li class="fw-italic  list-unstyled"><span id="shazam-id-history"></span></li>
-            </ul>
-          </p>
+            <div class="row">
+
+            <div class="col-12 col-sm-6">
+
+            <h6 class="text-center mb-3">Current</h6>
+            <dl>
+              <dt id="shazam-current-id" class = "fw-normal"></dt>
+              <dd id="shazam-current-time" class = "fst-italic"></dd>
+            </dl>
+
+            </div>
+
+
+            <div class="col-12 col-sm-6">
+
+            <h6 class="text-center mt-3 mb-3 mt-sm-0">ID history</h6>
+            <dl id = "shazam-previous">
+            </dl>
+
+            </div>
+
+            </div>
+
+</div>
+
         </div>
 
         </div>
@@ -520,44 +541,188 @@ function loadChat() {
 
   <script>
 
-  var nowPlayingBtns = getElementById('now-playing')
+  var nowPlayingBtns = document.getElementById('now-playing')
 
   // add shazam button to now playing
   var shazamBtn = document.createElement('button');
 
   shazamBtn.setAttribute('class', 'd-inline-block btn btn-outline-dark text-truncate');
-
-  shazamBtn.innerHTML = `<i class="bi bi-shazam"></i> <span class = "small">Shazam</span>`;
-
-  var CurrentStreamUrl = document.getElementById('audio-source').src;
-
-  var CurrentStreamName = document.getElementById('player-station').innerText;
-
-  shazamBtn.setAttribute('onclick', 'shazamUrl(+"' CurrentStreamUrl + '")');
-
-  function shazamUrl (url) {
+    shazamBtn.setAttribute('id', 'shazam-button');
 
 
-    
+  shazamBtn.innerHTML = `<i class="bi bi-shazam"></i> <span class = "small"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-music-fill" viewBox="0 0 16 16">
+  <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-.5 4.11v1.8l-2.5.5v5.09c0 .495-.301.883-.662 1.123C7.974 12.866 7.499 13 7 13c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 10.134 6.501 10 7 10c.356 0 .7.068 1 .196V4.41a1 1 0 0 1 .804-.98l1.5-.3a1 1 0 0 1 1.196.98z"/>
+</svg> ID</span>`;
+
+  shazamBtn.setAttribute('onclick', 'shazamUrl()');
+
+  // deactive shazam button
+
+  shazamBtn.setAttribute('disabled', 'true');
+
+  nowPlayingBtns.appendChild(shazamBtn);
+
+  function activateShazamButton() {
+    document.getElementById('shazam-button').removeAttribute('disabled');
+  }
+
+  // when audio is playing, activate shazam button
+  window.audio.addEventListener('play', activateShazamButton);
+
+
+  function parseShazapiResponse (resp) {
+
+    var response = {
+      time: resp.timestamp,
+    }
+
+    response.artist = '';
+    response.title = '';
+
+    try {
+      response.artist = resp.shazam.track.subtitle
+      response.title = resp.shazam.track.title
+    } catch (error) {
+      
+    }
+
+    if (response.artist == '' && response.title == '') {
+      response.displayTrack = 'No ID found';
+    } else {
+      response.displayTrack = response.artist + ' - ' + response.title;
+    }
+
+    return response;
+
+  }
+
+  function shazamUrl () {
+
+
+    var CurrentStreamUrl = document.getElementById('audio-source').src;
+
+    var CurrentStreamName = document.getElementById('player-station').innerText;
+
+
+    var url = CurrentStreamUrl;
+
+
+    openShazamBox();
+
+    // display the loading text
+    document.getElementById('shazam-loading').classList.remove('d-none');
+
+    // hide the info text
+    if (!document.getElementById('shazam-info').classList.contains('d-none')) {
+      document.getElementById('shazam-info').classList.add('d-none');
+    }
+
     // make a post request to shazam api
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "api.radioactivity.directory/shazam/detect", true);
-    http.send(JSON.stringify({
+    xhr.open("POST", "https://api.radioactivity.directory/shazam/detect", true);
+    xhr.send(JSON.stringify({
         url: url,
         history: 5,
         requester: "radioactivity.directory"
     }))
 
-    http.onload = function() {
-        
+    xhr.onload = function() {
+
+      console.log(xhr.response);
+
+      if (xhr.status == 200) {
+
+        console.log("Shazam API request successful");
+
+        var current = parseShazapiResponse(JSON.parse(xhr.response));
+
+        // add current info
+        document.getElementById('shazam-current-time').innerHTML = current.time;
+        document.getElementById('shazam-current-id').innerHTML = current.displayTrack;
+
+        // add history info
+        var history = JSON.parse(xhr.response).history;
+
+        var shazamPrevious = document.getElementById('shazam-previous');
+
+        // loop through history
+        for (let i = 0; i < history.length; i++) {
+          const element = history[i];
+
+          var historyItem = parseShazapiResponse(element);
+
+          // create a new dd element
+          var newDD = document.createElement('dd');
+
+          // add the time
+          newDD.innerHTML = historyItem.time;
+
+          // create a new dt element
+          var newDT = document.createElement('dt');
+
+          // add the id
+          newDT.innerHTML = historyItem.displayTrack;
+
+          newDT.setAttribute('class', 'fw-normal');
+          newDD.setAttribute('class', 'fst-italic');
+
+          // add the dt and dd to the dl
+          shazamPrevious.appendChild(newDT);
+          shazamPrevious.appendChild(newDD);
+
+        }
+
+
+
+      } else {
+        // add current info
+        document.getElementById('shazam-current-time').innerHTML = "Error";
+        document.getElementById('shazam-current-id').innerHTML = "Error";
+      }
+
+      // hide loading, show info
+      document.getElementById('shazam-loading').classList.add('d-none');
+      document.getElementById('shazam-info').classList.remove('d-none');
+
+      // delete xhr
+      xhr = null;
+      
   }
 
+  };
+
  function openShazamBox() {
-    var shazamBox = document.getElementById('shazam-box');
+
+    var shazamBox = document.getElementById('shazam-row');
+
+    // if shazam box is already open, close it
+    if (!shazamBox.classList.contains('d-none')) {
+      closeShazamBox();
+    }
+
     shazamBox.classList.remove('d-none');
 
-    
+    // scroll to shazam box
+    shazamBox.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
   
+  }
+
+  function closeShazamBox() {
+    var shazamBox = document.getElementById('shazam-row');
+
+    // clear shazam-previous
+    document.getElementById('shazam-previous').innerHTML = '';
+
+    // clear current info
+    document.getElementById('shazam-current-time').innerHTML = '';
+    document.getElementById('shazam-current-id').innerHTML = '';
+
+    if (shazamBox.classList.contains('d-none')) {
+      return;
+    }
+
+    shazamBox.classList.add('d-none');
+
   }
   
 

@@ -148,3 +148,8 @@ optgroup {
       opacity: 0;
     }
   }
+
+
+#shazam-row dd {
+    font-size: 0.8rem !important;
+}
