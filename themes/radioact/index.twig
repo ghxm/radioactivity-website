@@ -533,6 +533,8 @@ function loadChat() {
 
       updateMediaSession(stationName=stationName, stationID=stationID);
 
+      activateShazamButton();
+
       player.load();
       playPause();
   }
@@ -566,8 +568,6 @@ function loadChat() {
     document.getElementById('shazam-button').removeAttribute('disabled');
   }
 
-  // when source changes, activate shazam button
-  document.getElementById('audio-source').addEventListener('change', activateShazamButton);
 
 
   function parseShazapiResponse (resp) {
