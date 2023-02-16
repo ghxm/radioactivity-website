@@ -633,7 +633,8 @@ function loadChat() {
     xhr.send(JSON.stringify({
         url: url,
         history: 5,
-        requester: "radioactivity.directory"
+        requester: "radioactivity.directory",
+        exclude_not_found: true
     }))
 
     xhr.onload = function() {
