@@ -1,6 +1,6 @@
 ---
 title: CAMP Radio
-logo: campradio.png
+logo: campradio.jpg
 stream_url:
 - [station, http://listen.camp:8000/320, online]
 description: "CAMP Radio, broadcasting direct from our revolutionary arts facility high in the French Pyrenees."
