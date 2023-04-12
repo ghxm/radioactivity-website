@@ -7,5 +7,5 @@ description: "CAMP Radio, broadcasting direct from our revolutionary arts facili
 support: "https://www.campfr.com/"
 url: "http://listen.camp/"
 location: Aulus-les-Bains, FR
-play_time: tba?
+play_time: 24/7
 ---
