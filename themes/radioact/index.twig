@@ -238,7 +238,7 @@
                   <span title="station appears to be {{ online_status }}" class="dot-air {{ online_status }}"></span><span class="iconify" data-icon="bi:play-fill"></span>
                 </button>
                 <noscript>enable <code>js</code></noscript>{% endfor %}</td>
-              <td><a href="{{ station.meta.url }}">{{ station.meta.url|replace({'https://': '', 'http://': '', 'www.': '', '/': ''}) }}/</a></td>
+              <td><a href="{{ station.meta.url }}">{{ station.meta.url|replace({'https://': '', 'http://': '', 'www.': ''}) }}/</a></td>
               <td><a class="btn btn-link py-0  fw-900" href="{% if station.meta.support is not empty %}{{station.meta.support}}" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: "
               class="link-danger{% endif %}">
                 <a href="{% if station.meta.support is not empty %}{{station.meta.support}}" title="Support the station" class = "text-decoration-none" target="_blank{% else %}mailto:{{ config.contact }}?subject={{ station.title }} information&body=Hi, here's some additional information on {{ station.title }}: " title="Submit a station support link via e-mail" class="text-decoration-none link-danger{% endif %}">{% if station.meta.support is empty %}<i class="bi bi-life-preserver"></i>{% else %}<i class="bi bi-life-preserver"></i></a>{% endif %}</a>
