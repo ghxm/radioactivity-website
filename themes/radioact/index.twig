@@ -84,24 +84,22 @@
 
         <div class="ps-4 pe-1 px-md-5 px-lg-3 ml-0 ml-xs-3 col col-7 col-md-4 align-items-center mt-md-1 px-4 mt-0 mb-2 mb-sm-2">
           <div id="now-playing" class="btn-group w-100">
-            <button class = 'd-inline-block btn btn-outline-dark text-truncate'>
-            <i class="bi bi-vinyl blink d-none d-sm-inline-block"></i> <span class = "small" id="player-station">(null)</span>
-            </button>
+          <select id="stationselect" class="btn btn-outline-primary form-select w-75 text-truncate" >
+            <optgroup>
+              <option class="" selected disabled>Jump to</option>
+              <!---<option class="" selected disabled></option> -->
+              {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
+                <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
+              {% endfor %}
+            </optgroup>
+         </select> 
           </div>
         </div>
 
         <div class="col col-5 col-md-6 pe-4 mt-md-1 px-4 mt-0 mb-2 mb-sm-2">
         <div class="float-end float-md-end d-flex flex-nowrap">
         <div class="w-auto d-inline-block me-1">
-         <select id="stationselect" class="btn btn-outline-primary form-select w-100" >
-            <optgroup>
-              <option class="" selected disabled>Select</option>
-               <option class="" selected disabled></option>
-              {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
-                <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
-              {% endfor %}
-            </optgroup>
-         </select> 
+         
         </div>
         <span class="d-block d-inline-block me-1 btn-group">
           <a title = "Play a random station" class="btn btn-outline-primary text-reset text-decoration-none ps-2 ps-md-3 pe-2 pe-md-3" href='{{ current_page.id|link("#{url_params}&random=true") }}'><i class="fw-bold bi bi-shuffle"></i></a>
@@ -529,14 +527,30 @@ function loadChat() {
       
       var player=document.getElementById('audio-player');
       var source=document.getElementById('audio-source');
-      var listening=document.getElementById('player-station');
+      //var listening=document.getElementById('player-station');
       var title=document.getElementsByTagName('title')[0];
+      var stationselector=document.getElementById('stationselect');
 
       player.title=stationName;
       
       source.src=streamUrl;
+
+      // select station by id
+      stationselector.value = stationID;
+
+      // remove &#9654; from all select options
+      var options = document.querySelectorAll('#stationselect option');
+      options.forEach(function(option){
+        if (option.textContent.includes('&#9654;') | option.textContent.includes('▶')){
+          option.textContent = option.textContent.replace('&#9654; ', '');
+          option.textContent = option.textContent.replace('▶ ', '');
+        }
+      });
+
+      // add &#9654; to selected option
+      document.querySelector('#stationselect option[value="'+ stationID +'"]').innerHTML = '&#9654; ' + stationName;
       
-      listening.innerHTML = '<a title="jump to station in grid/list" class="text-reset text-decoration-none" href="#'+ stationID + '">' + stationName + '</a>';
+      //listening.innerHTML = '<a title="jump to station in grid/list" class="text-reset text-decoration-none" href="#'+ stationID + '">' + stationName + '</a>';
       title.innerHTML = originalTitle + " (" + stationName + ")";
 
       activateShazamButton();
@@ -611,7 +625,9 @@ function loadChat() {
 
     var CurrentStreamUrl = document.getElementById('audio-source').src;
 
-    var CurrentStreamName = document.getElementById('player-station').innerText;
+  // get current stream name from selected option
+  
+  //  var CurrentStreamName = document.querySelector('#stationselect option[value="'+ document.getElementById('stationselect').value +'"]').innerHTML;
 
 
     var url = CurrentStreamUrl;
@@ -761,6 +777,9 @@ function loadChat() {
 
     <script>
     loadStream('{{random_station_name}}', '{{random_station_url}}', '{{random_station.id | split('/') | last}}');
+
+    // jump to station
+    document.getElementById('{{random_station.id | split('/') | last}}').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
     </script>
 
 {% endif %}

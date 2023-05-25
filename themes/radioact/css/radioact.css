@@ -133,6 +133,17 @@ optgroup {
     font-size: .875rem !important;
 }
 
+/* add playing icon to select option */
+
+.option-playing::before {
+    content: "\f144";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: red;
+    margin-right: 0.5rem;
+}
+
 #stationselect-ch3 {
     font-size: 0.875rem !important;
     text-align-last:center;
