@@ -84,7 +84,7 @@
 
         <div class="ps-4 pe-1 px-md-5 px-lg-3 ml-0 ml-xs-3 col col-7 col-md-4 align-items-center mt-md-1 px-4 mt-0 mb-2 mb-sm-2">
           <div id="now-playing" class="btn-group w-100">
-          <select id="stationselect" class="btn btn-outline-primary form-select w-75 text-truncate" >
+          <select id="stationselect" class="btn btn-outline-primary form-select w-75 text-truncate animate-blue-pulse" >
             <optgroup>
               <option class="" selected disabled>Jump to</option>
               <!---<option class="" selected disabled></option> -->
@@ -335,9 +335,14 @@ function loadChat() {
   document.getElementById('stationselect').onchange= function() {
     window.location.hash=this.value;
 
-    var selected = document.getElementById('stationselect').options.selectedIndex;
+    //var selected = document.getElementById('stationselect').options.selectedIndex;
+
+    // add animation to station card
+    document.getElementById(this.value).classList.add('animate-blue-pulse-quick');
 
   };
+
+
 </script>
 
 

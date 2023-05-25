@@ -135,10 +135,15 @@ optgroup {
 
 /* add playing icon to selected option */
 
-#stationselect {
+
+.animate-blue-pulse-quick {
+    animation: blue-pulse 1s 2;
+
+}
+
+.animate-blue-pulse {
     animation: blue-pulse 2s 2;
-    /*border: 7px solid #336;*/
-    /*background: #336;*/
+
 }
 
 @keyframes blue-pulse {
