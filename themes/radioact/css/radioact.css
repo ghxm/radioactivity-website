@@ -133,16 +133,28 @@ optgroup {
     font-size: .875rem !important;
 }
 
-/* add playing icon to select option */
+/* add playing icon to selected option */
 
-.option-playing::before {
-    content: "\f144";
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 1.2rem;
-    color: red;
-    margin-right: 0.5rem;
+#stationselect {
+    animation: blue-pulse 2s 2;
+    /*border: 7px solid #336;*/
+    /*background: #336;*/
 }
+
+@keyframes blue-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0,0,0,2)
+    }
+
+    50% {
+        box-shadow: 0 0 0 0 rgba(0,0,0,2)
+    }
+
+    100% {
+        box-shadow: 0 0 0 20px rgba(0,0,0,0)
+    }
+}
+
 
 #stationselect-ch3 {
     font-size: 0.875rem !important;
