@@ -55,10 +55,10 @@
 
 <body class="bg-offwhite">
 
-  {% set stations = pages('_stations') %}
+<!--- set stations to all stations pages that are not hidden -->
+{% set stations = pages('_stations') | filter((p) => p.meta.hidden != true) %}
 
 
-    
     <div>
     <header class="border-top border-black px-2 py-1 py-sm-3 my-0 mx-0 container-fluid site-header bg-white">
 
@@ -88,7 +88,7 @@
             <optgroup>
               <option class="" selected disabled>Jump to</option>
               <!---<option class="" selected disabled></option> -->
-              {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo") %}
+              {% for station in stations|filter((s) => s.id | split('/') | last != "chuntoo")  %}
                 <option value="{{ station.id | split('/') | last }}">{{ station.title }}</option>
               {% endfor %}
             </optgroup>
