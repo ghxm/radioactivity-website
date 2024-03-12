@@ -2,8 +2,8 @@
 title: Aaja Radio
 logo: "aajaradio.jpg"
 stream_url:
-- ['#1', https://aajamusic.out.airtime.pro/aajamusic_a, online]
-- ['#2', https://aaja2.out.airtime.pro/aaja2_a, online]
+- ['#1', https://aaja.radiocult.fm/stream, online]
+- ['#2', https://aaja-2.radiocult.fm/stream, online]
 description: "AAJA Music is a grassroots music space, hub & platform situated in Deptford, SE8."
 support: 
 url: "https://aajamusic.com/radio"
