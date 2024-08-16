@@ -8,5 +8,6 @@ support:
 url: "https://www.radijo-musikii.net/"
 location: 
 play_time: 24/7?
+recommended: ["Aurelijus"]
 ---
 

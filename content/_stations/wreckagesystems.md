@@ -8,4 +8,5 @@ support: "https://www.patreon.com/65daysofstatic"
 url: "https://65daysofstatic.com/"
 location: Sheffield, UK
 play_time: 24/7
+recommended: ["Aurelijus"]
 ---

@@ -8,5 +8,6 @@ support: https://www.patreon.com/radioplato
 url: "https://radioplato.by/"
 location: Minsk, BY
 play_time: 24/7?
+recommended: ["Aurelijus"]
 ---
 

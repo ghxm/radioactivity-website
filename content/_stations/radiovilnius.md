@@ -8,5 +8,6 @@ support:
 url: "https://radiovilnius.live/"
 location: Vilnius, LT
 play_time: 24/7?
+recommended: ["Aurelijus"]
 ---
 
