@@ -253,7 +253,9 @@
 
                 <div class="col themed-grid-col">
                     <div id="{{ station.id | split('/') | last }}" class="station-card rounded-0 card h-100">
-                        <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="rounded-0 card-img-top img-fluid d-none d-sm-block" alt="{{ station.meta.title }} logo">
+                        {% if station.meta.logo %}
+                            <img src="{{ assets_url }}/images/{{ station.meta.logo }}" class="rounded-0 card-img-top img-fluid d-none d-sm-block" alt="{{ station.meta.title }} logo">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ station.title }} 
                             {% if station.meta.recommended is defined %} {% for rec in station.meta.recommended %}<h6><span class="position-absolute top-0 start-50 translate-middle badge bg-dark">{{ rec }}</span></h6>{% endfor %}{% endif %}</h5>
