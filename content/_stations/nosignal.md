@@ -7,5 +7,4 @@ description: "No Signal is a radio station and media + events platform for Black
 url: "https://theresnosignal.com/"
 location: London, UK
 play_time: tba
-recommended: ["mattt"]
 ---

@@ -8,5 +8,4 @@ support: "https://noodsradio.com/luvers"
 url: "https://www.noodsradio.com/"
 location: Bristol, UK
 play_time: 24/7?
-recommended: ["mattt"]
 ---

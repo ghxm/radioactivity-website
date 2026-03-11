@@ -8,5 +8,4 @@ support: https://ko-fi.com/doyouworld/tiers
 url: "https://www.balamii.com/"
 location: London, UK
 play_time: 24/7
-recommended: ["mattt"]
 ---

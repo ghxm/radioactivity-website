@@ -6,5 +6,4 @@ description: "We are an independent, non-profit, online radio station live strea
 url: "https://www.thelotradio.com/"
 location: New York, US
 play_time: 24/7
-recommended: ["mattt"]
 ---

@@ -8,5 +8,4 @@ support: "https://www.ehfm.live/support"
 url: "https://www.ehfm.live/"
 location: Edinburgh, UK
 play_time: 24/7
-recommended: ["mattt"]
 ---

@@ -7,5 +7,4 @@ description: "London's community voice broadcasting live from a converted shippi
 url: "https://www.netilradio.com/"
 location: London, UK
 play_time: tba?
-recommended: ["mattt"]
 ---

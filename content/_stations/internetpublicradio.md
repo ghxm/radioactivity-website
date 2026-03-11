@@ -8,5 +8,4 @@ support: "https://internetpublicradio.live/support"
 url: "https://internetpublicradio.live/"
 location: Guadalajara, MX
 play_time: tba
-recommended: ["mattt"]
 ---

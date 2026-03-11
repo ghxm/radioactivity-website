@@ -8,5 +8,4 @@ support: "https://datafruits.fm/about/"
 url: "https://datafruits.fm"
 location: Seattle, US & Seoul, KR
 play_time: tba
-recommended: ["mattt"]
 ---
