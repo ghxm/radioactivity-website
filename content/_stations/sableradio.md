@@ -1,4 +1,5 @@
 ---
+hidden: true
 title: Sable Radio
 logo: sableradio.jpg
 stream_url:

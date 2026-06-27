@@ -2,7 +2,7 @@
 title: "N10.AS Radio"
 logo: n10asradio.png
 stream_url:
-- [station, https://n10as.out.airtime.pro/n10as_a, online]
+- [station, https://n10as.radiocult.fm/stream, online]
 description: "A non-profit & volunteer-run online radio station."
 url: "https://n10.as/"
 support: ""

@@ -1,4 +1,5 @@
 ---
+hidden: true
 title: Shared Frequencies
 logo: sharedfrequencies.png
 stream_url:

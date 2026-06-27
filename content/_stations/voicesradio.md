@@ -2,7 +2,7 @@
 title: "Voices Radio"
 logo: voicesradio.png
 stream_url:
-- ['live', https://listen.mixlr.com/d7e4c38a20e6733c755c0f631b295e82, online]
+- ['live', https://voicesradio.out.airtime.pro/voicesradio_a, online]
 description: "Voices is a brand-new radio station for the KX community and beyond."
 url: "https://voicesradio.co.uk/"
 location: "London, UK"

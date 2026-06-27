@@ -1,4 +1,5 @@
 ---
+hidden: true
 title: AOM radio
 logo: aomradio.png
 stream_url:

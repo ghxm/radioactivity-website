@@ -1,4 +1,5 @@
 ---
+hidden: true
 title: "1020 Radio"
 logo: 1020radio.svg
 stream_url:
