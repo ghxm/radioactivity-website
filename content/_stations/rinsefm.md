@@ -3,7 +3,7 @@ hidden: true
 title: RinseFM
 logo: 
 stream_url:
-- ['station', https://streamer-uk.rinse.fm:8443/stream, online]
+- ['station', https://admin.stream.rinse.fm/proxy/rinse_uk/stream, online]
 description: ""
 support: 
 url: "https://www.rinse.fm/"
